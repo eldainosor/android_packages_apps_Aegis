@@ -30,8 +30,8 @@ import android.os.UserManager;
 import android.util.ArrayMap;
 import android.util.SparseArray;
 
-import com.mokee.autorunmanager.utils.Utils;
 import com.mokee.cloud.misc.CloudUtils;
+import com.mokee.utils.PackageUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,7 +92,7 @@ public class PermissionApps {
                 for (int j = 0; j < app.requestedPermissions.length; j++) {
                     String requestedPerm = app.requestedPermissions[j];
                     if (requestedPerm.equals(Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                            && !Utils.isSystem(app.applicationInfo)) {
+                            && !PackageUtils.isSystem(app.applicationInfo)) {
                         int mCurAppOpMode = mAppOpsManager.checkOp(AppOpsManager.OP_BOOT_COMPLETED, app.applicationInfo.uid, app.packageName);
                         String label = app.applicationInfo.loadLabel(mPm).toString();
                         PermissionApp permApp = new PermissionApp(app.packageName,
