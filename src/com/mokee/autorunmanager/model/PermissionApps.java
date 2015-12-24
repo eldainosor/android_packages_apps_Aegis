@@ -12,9 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.mokee.autorunmanager.permission.model;
+package com.mokee.autorunmanager.model;
 
 import android.Manifest;
 import android.app.AppOpsManager;
@@ -29,7 +30,8 @@ import android.os.UserManager;
 import android.util.ArrayMap;
 import android.util.SparseArray;
 
-import com.mokee.autorunmanager.permission.utils.Utils;
+import com.mokee.autorunmanager.utils.Utils;
+import com.mokee.cloud.misc.CloudUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,7 +78,7 @@ public class PermissionApps {
     }
 
     private List<PermissionApp> loadPermissionApps() {
-
+        if (!CloudUtils.Verified) return null;
         ArrayList<PermissionApp> permApps = new ArrayList<>();
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier())

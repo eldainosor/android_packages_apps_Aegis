@@ -12,9 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.mokee.autorunmanager.permission.ui;
+package com.mokee.autorunmanager.ui;
 
 import android.app.AppOpsManager;
 import android.content.Context;
@@ -27,15 +28,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mokee.autorunmanager.R;
-import com.mokee.autorunmanager.permission.model.PermissionApps;
-import com.mokee.autorunmanager.permission.model.PermissionApps.Callback;
-import com.mokee.autorunmanager.permission.model.PermissionApps.PermissionApp;
+import com.mokee.autorunmanager.model.PermissionApps;
+import com.mokee.autorunmanager.model.PermissionApps.Callback;
+import com.mokee.autorunmanager.model.PermissionApps.PermissionApp;
 import com.mokee.cloud.misc.CloudUtils;
 
 public final class PermissionAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
-    private static final String PREF_CATEGORY_ALLOW = "pref_category_allow";
-    private static final String PREF_CATEGORY_DENY = "pref_category_deny";
+    private static final String PREF_CATEGORY_ALLOW_KEY = "pref_category_allow_key";
+    private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
 
     private PermissionApps mPermissionApps;
     private AppOpsManager mAppOpsManager;
@@ -82,18 +83,18 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         }
 
         screenRoot = getPreferenceScreen();
-        categoryAllow = (PreferenceCategory) screenRoot.findPreference(PREF_CATEGORY_ALLOW);
+        categoryAllow = (PreferenceCategory) screenRoot.findPreference(PREF_CATEGORY_ALLOW_KEY);
         if (categoryAllow == null) {
             categoryAllow = new PreferenceCategory(context);
-            categoryAllow.setKey(PREF_CATEGORY_ALLOW);
+            categoryAllow.setKey(PREF_CATEGORY_ALLOW_KEY);
             categoryAllow.setTitle(R.string.allow_list_category);
             screenRoot.addPreference(categoryAllow);
         }
 
-        categoryDeny = (PreferenceCategory) screenRoot.findPreference(PREF_CATEGORY_DENY);
+        categoryDeny = (PreferenceCategory) screenRoot.findPreference(PREF_CATEGORY_DENY_KEY);
         if (categoryDeny == null) {
             categoryDeny = new PreferenceCategory(context);
-            categoryDeny.setKey(PREF_CATEGORY_DENY);
+            categoryDeny.setKey(PREF_CATEGORY_DENY_KEY);
             categoryDeny.setTitle(R.string.deny_list_category);
             screenRoot.addPreference(categoryDeny);
         }
@@ -136,9 +137,9 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryAllow.getPreferenceCount() == 0) {
             screenRoot.removePreference(categoryAllow);
         } else {
-            if (screenRoot.findPreference(PREF_CATEGORY_ALLOW) == null) {
+            if (screenRoot.findPreference(PREF_CATEGORY_ALLOW_KEY) == null) {
                 screenRoot.addPreference(categoryAllow);
-                if (screenRoot.findPreference(PREF_CATEGORY_DENY) != null) {
+                if (screenRoot.findPreference(PREF_CATEGORY_DENY_KEY) != null) {
                     screenRoot.removePreference(categoryDeny);
                     screenRoot.addPreference(categoryDeny);
                 }
@@ -147,7 +148,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryDeny.getPreferenceCount() == 0) {
             screenRoot.removePreference(categoryDeny);
         } else {
-            if (screenRoot.findPreference(PREF_CATEGORY_DENY) == null) {
+            if (screenRoot.findPreference(PREF_CATEGORY_DENY_KEY) == null) {
                 screenRoot.addPreference(categoryDeny);
             }
         }

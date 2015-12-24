@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DialogWhenLarge">
         <activity
-            android:name=".permission.ui.ManagePermissionsActivity"
+            android:name=".ui.ManagePermissionsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:excludeFromRecents="true"
             android:theme="@style/Settings">

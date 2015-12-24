@@ -23,7 +23,21 @@ LOCAL_RESOURCE_DIR := \
 LOCAL_AAPT_FLAGS := --auto-add-overlay \
     --extra-packages android.support.v7.preference:android.support.v14.preference:android.support.v17.preference:android.support.v7.appcompat:android.support.v7.recyclerview
 
+LOCAL_PROGUARD_FLAGS := -ignorewarnings -include build/core/proguard_basic_keeps.flags
+
+LOCAL_PROGUARD_ENABLED := nosystem
+
+LOCAL_PROGUARD_FLAG_FILES := proguard.flags
+ifeq (eng,$(TARGET_BUILD_VARIANT))
+    LOCAL_PROGUARD_FLAG_FILES += proguard-test.flags
+else
+    LOCAL_PROGUARD_FLAG_FILES += proguard-release.flags
+endif
+
+LOCAL_JACK_ENABLED := disabled
+
 LOCAL_PACKAGE_NAME := AutorunManager
+
 LOCAL_CERTIFICATE := platform
 
 LOCAL_PRIVILEGED_MODULE := true

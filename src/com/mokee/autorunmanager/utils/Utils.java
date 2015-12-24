@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.autorunmanager.permission.utils;
+package com.mokee.autorunmanager.utils;
 
 import android.content.pm.ApplicationInfo;
 
