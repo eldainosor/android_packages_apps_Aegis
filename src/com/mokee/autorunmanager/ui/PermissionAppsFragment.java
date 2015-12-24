@@ -99,26 +99,31 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
             screenRoot.addPreference(categoryDeny);
         }
         if (!CloudUtils.Verified) return;
-        for (final PermissionApp app : permissionApps.getApps()) {
-            String key = app.getKey();
-            SwitchPreference existingPref = (SwitchPreference) screenRoot.findPreference(key);
-            if (existingPref != null) {
-                existingPref.setChecked(app.getAllowed());
-                continue;
-            }
+        if (permissionApps.getApps().size() != 0) {
+            for (final PermissionApp app : permissionApps.getApps()) {
+                String key = app.getKey();
+                SwitchPreference existingPref = (SwitchPreference) screenRoot.findPreference(key);
+                if (existingPref != null) {
+                    existingPref.setChecked(app.getAllowed());
+                    continue;
+                }
 
-            final SwitchPreference pref = new SwitchPreference(context);
-            pref.setKey(app.getKey());
-            pref.setIcon(app.getIcon());
-            pref.setTitle(app.getLabel());
-            pref.setChecked(app.getAllowed());
-            pref.setOnPreferenceChangeListener(this);
-            if (app.getAllowed()) {
-                categoryAllow.addPreference(pref);
-            } else {
-                categoryDeny.addPreference(pref);
+                final SwitchPreference pref = new SwitchPreference(context);
+                pref.setKey(app.getKey());
+                pref.setIcon(app.getIcon());
+                pref.setTitle(app.getLabel());
+                pref.setChecked(app.getAllowed());
+                pref.setOnPreferenceChangeListener(this);
+                if (app.getAllowed()) {
+                    categoryAllow.addPreference(pref);
+                } else {
+                    categoryDeny.addPreference(pref);
+                }
             }
+        } else {
+            screenRoot.removeAll();
         }
+
         setLoading(false /* loading */, true /* animate */);
     }
 
