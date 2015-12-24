@@ -19,6 +19,9 @@ package com.mokee.autorunmanager.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
+
+import com.mokee.os.Build.VERSION;
 
 public class ManagePermissionsActivity extends Activity {
 
@@ -26,9 +29,10 @@ public class ManagePermissionsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null || TextUtils.isEmpty(VERSION.CODENAME)) {
             return;
         }
+
         PermissionAppsFragment fragment = PermissionAppsFragment.newInstance();
         getFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
     }

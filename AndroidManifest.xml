@@ -13,7 +13,6 @@
         <activity
             android:name=".ui.ManagePermissionsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:excludeFromRecents="true"
             android:theme="@style/Settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
