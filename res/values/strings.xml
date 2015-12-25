@@ -23,4 +23,6 @@
     <string name="no_apps">No apps</string>
     <string name="autorun_allow_list_category_title">Allow autorun apps</string>
     <string name="autorun_deny_list_category_title">Do not allow auturun apps</string>
+    <string name="hibernation_allow_list_category_title">Allow background apps to continue running</string>
+    <string name="hibernation_deny_list_category_title">Currently hibernating apps</string>
 </resources>

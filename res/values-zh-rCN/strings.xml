@@ -23,4 +23,6 @@
     <string name="no_apps">"没有应用"</string>
     <string name="autorun_allow_list_category_title">"允许自启的应用"</string>
     <string name="autorun_deny_list_category_title">"不允许自启的应用"</string>
+    <string name="hibernation_allow_list_category_title">"允许待机时继续运行的应用"</string>
+    <string name="hibernation_deny_list_category_title">"禁止待机时继续运行的应用"</string>
 </resources>

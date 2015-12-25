@@ -17,6 +17,7 @@
 
 package com.mokee.autorunmanager.ui;
 
+import android.app.AppOpsManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.design.widget.TabLayout;
@@ -81,7 +82,13 @@ public class ManagePermissionsActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PermissionAppsFragment.newInstance(getPageTitle(position).toString());
+            switch (position) {
+                case 0:
+                    return PermissionAppsFragment.newInstance(AppOpsManager.OP_BOOT_COMPLETED);
+                case 1:
+                    return PermissionAppsFragment.newInstance(AppOpsManager.OP_WAKE_LOCK);
+            }
+            return null;
         }
 
         @Override

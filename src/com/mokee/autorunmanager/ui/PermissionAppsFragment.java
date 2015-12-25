@@ -38,6 +38,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
 
     private static final String PREF_CATEGORY_ALLOW_KEY = "pref_category_allow_key";
     private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
+    private static final String APP_OP_MODE = "app_op_mode";
 
     private PermissionApps mPermissionApps;
     private AppOpsManager mAppOpsManager;
@@ -46,13 +47,18 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
     private PreferenceCategory categoryAllow;
     private PreferenceCategory categoryDeny;
 
-    public static Fragment newInstance(String title) {
-        return setPermissionName(new PermissionAppsFragment(), title);
+    private int mCurAppOpMode;
+
+    private int mCurCategoryAllowResId;
+    private int mCurCategoryDenyResId;
+
+    public static Fragment newInstance(int mode) {
+        return setPermissionName(new PermissionAppsFragment(), mode);
     }
 
-    private static <T extends Fragment> T setPermissionName(T fragment, String title) {
+    private static <T extends Fragment> T setPermissionName(T fragment, int mode) {
         Bundle arguments = new Bundle();
-        arguments.putString("title", title);
+        arguments.putInt(APP_OP_MODE, mode);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -62,7 +68,18 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         super.onCreate(savedInstanceState);
         mAppOpsManager = (AppOpsManager) getActivity().getSystemService(Context.APP_OPS_SERVICE);
         setLoading(true /* loading */, false /* animate */);
-        mPermissionApps = new PermissionApps(getActivity(), this);
+        mCurAppOpMode = getArguments().getInt(APP_OP_MODE);
+        switch (mCurAppOpMode) {
+            case AppOpsManager.OP_BOOT_COMPLETED:
+                mCurCategoryAllowResId = R.string.autorun_allow_list_category_title;
+                mCurCategoryDenyResId = R.string.autorun_deny_list_category_title;
+                break;
+            case AppOpsManager.OP_WAKE_LOCK:
+                mCurCategoryAllowResId = R.string.hibernation_allow_list_category_title;
+                mCurCategoryDenyResId = R.string.hibernation_deny_list_category_title;
+                break;
+        }
+        mPermissionApps = new PermissionApps(getActivity(), mCurAppOpMode, this);
         mPermissionApps.refresh();
     }
 
@@ -95,7 +112,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryAllow == null) {
             categoryAllow = new PreferenceCategory(context);
             categoryAllow.setKey(PREF_CATEGORY_ALLOW_KEY);
-            categoryAllow.setTitle(R.string.autorun_allow_list_category_title);
+            categoryAllow.setTitle(mCurCategoryAllowResId);
             screenRoot.addPreference(categoryAllow);
         }
 
@@ -103,7 +120,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryDeny == null) {
             categoryDeny = new PreferenceCategory(context);
             categoryDeny.setKey(PREF_CATEGORY_DENY_KEY);
-            categoryDeny.setTitle(R.string.autorun_deny_list_category_title);
+            categoryDeny.setTitle(mCurCategoryDenyResId);
             screenRoot.addPreference(categoryDeny);
         }
         if (!CloudUtils.Verified) return;
@@ -138,7 +155,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         PermissionApp app = mPermissionApps.getApp(preference.getKey());
-        mAppOpsManager.setMode(AppOpsManager.OP_BOOT_COMPLETED, app.getUid(),
+        mAppOpsManager.setMode(mCurAppOpMode, app.getUid(),
                 app.getPackageName(), (Boolean) newValue ? AppOpsManager.MODE_ALLOWED : mAppOpsManager.MODE_IGNORED);
         if (!(Boolean) newValue) {
             categoryAllow.removePreference(preference);
