@@ -14,11 +14,13 @@
  -->
 
 <resources>
-    <string name="app_name">"自启动管理"</string>
+    <string name="app_name">"宙斯盾"</string>
+    <string name="autorun_title">"自动启动"</string>
+    <string name="hibernation_title">"程序休眠"</string>
     <!-- Text displayed until loading is done -->
     <string name="loading">"正在加载…"</string>
     <!-- [CHAR LIMIT=NONE] Label when no apps requesting this permission -->
     <string name="no_apps">"没有应用"</string>
-    <string name="allow_list_category">"允许自启的应用"</string>
-    <string name="deny_list_category">"不允许自启的应用"</string>
+    <string name="autorun_allow_list_category_title">"允许自启的应用"</string>
+    <string name="autorun_deny_list_category_title">"不允许自启的应用"</string>
 </resources>

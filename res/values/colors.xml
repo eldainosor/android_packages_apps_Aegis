@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (C) 2015-2016 The MoKee Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +15,7 @@
  -->
 
 <resources>
-    <string name="app_name">Aegis</string>
-    <string name="autorun_title">Autorun</string>
-    <string name="hibernation_title">Hibernation</string>
-    <!-- Text displayed until loading is done -->
-    <string name="loading">Loading\u2026</string>
-    <!-- [CHAR LIMIT=NONE] Label when no apps requesting this permission -->
-    <string name="no_apps">No apps</string>
-    <string name="autorun_allow_list_category_title">Allow autorun apps</string>
-    <string name="autorun_deny_list_category_title">Do not allow auturun apps</string>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
 </resources>

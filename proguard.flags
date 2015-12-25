@@ -21,13 +21,6 @@
 -keepclassmembers class * {
   @com.google.common.annotations.VisibleForTesting *;
 }
-
-# Keep methods that have the @VisibleForAnimation annotation
--keep @interface com.android.messaging.annotation.VisibleForAnimation
--keepclassmembers class * {
-  @com.android.messaging.annotation.VisibleForAnimation *;
-}
-
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -38,18 +31,19 @@
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class com.android.vcard.* { *; }
 
+-keep class android.support.design.* { *; }
+-keep class android.support.design.*.* { *; }
 -keep class android.support.v4.* { *; }
 -keep class android.support.v4.*.* { *; }
 -keep class android.support.v7.* { *; }
 -keep class android.support.v7.*.* { *; }
+-keep class android.support.v13.* { *; }
+-keep class android.support.v13.*.* { *; }
+-keep class android.support.v14.* { *; }
+-keep class android.support.v14.*.* { *; }
 
 # Keep rastermill classes that need to be accessed from native code (JNI)
 -keep class android.support.rastermill.** { *; }
-
-# Preserve the name of the getCaller method so it can find itself in the stack trace it generates
--keepclassmembers public class com.android.messaging.util.DebugUtils {
-  public static java.lang.StackTraceElement getCaller(...);
-}
 
 # Keep the static fields of referenced inner classes of auto-generated R classes, in case we
 # access those fields by reflection (e.g. EmojiMarkup)

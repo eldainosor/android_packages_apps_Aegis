@@ -7,13 +7,16 @@ LOCAL_SRC_FILES := \
     $(call all-java-files-under, src)
 
 LOCAL_STATIC_JAVA_LIBRARIES += \
+    android-support-design \
     android-support-v4 \
     android-support-v7-recyclerview \
     android-support-v7-preference \
     android-support-v7-appcompat \
+    android-support-v13 \
     android-support-v14-preference
 
 LOCAL_RESOURCE_DIR := \
+    frameworks/support/design/res \
     frameworks/support/v7/preference/res \
     frameworks/support/v14/preference/res \
     frameworks/support/v7/appcompat/res \
@@ -21,18 +24,13 @@ LOCAL_RESOURCE_DIR := \
     $(LOCAL_PATH)/res
 
 LOCAL_AAPT_FLAGS := --auto-add-overlay \
-    --extra-packages android.support.v7.preference:android.support.v14.preference:android.support.v17.preference:android.support.v7.appcompat:android.support.v7.recyclerview
+    --extra-packages android.support.design:android.support.v7.preference:android.support.v14.preference:android.support.v17.preference:android.support.v7.appcompat:android.support.v7.recyclerview
 
 LOCAL_PROGUARD_FLAGS := -ignorewarnings -include build/core/proguard_basic_keeps.flags
 
 LOCAL_PROGUARD_ENABLED := nosystem
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
-ifeq (eng,$(TARGET_BUILD_VARIANT))
-    LOCAL_PROGUARD_FLAG_FILES += proguard-test.flags
-else
-    LOCAL_PROGUARD_FLAG_FILES += proguard-release.flags
-endif
 
 LOCAL_JACK_ENABLED := disabled
 

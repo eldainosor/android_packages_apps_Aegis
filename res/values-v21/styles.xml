@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (C) 2015-2016 The MoKee Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +15,8 @@
 
 <resources>
 
-    <style name="Settings" parent="@android:style/Theme.DeviceDefault.Settings">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Permissions</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
-
 </resources>

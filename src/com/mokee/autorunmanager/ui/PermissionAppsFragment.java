@@ -18,6 +18,7 @@
 package com.mokee.autorunmanager.ui;
 
 import android.app.AppOpsManager;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
@@ -45,8 +46,15 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
     private PreferenceCategory categoryAllow;
     private PreferenceCategory categoryDeny;
 
-    public static PermissionAppsFragment newInstance() {
-        return new PermissionAppsFragment();
+    public static Fragment newInstance(String title) {
+        return setPermissionName(new PermissionAppsFragment(), title);
+    }
+
+    private static <T extends Fragment> T setPermissionName(T fragment, String title) {
+        Bundle arguments = new Bundle();
+        arguments.putString("title", title);
+        fragment.setArguments(arguments);
+        return fragment;
     }
 
     @Override
@@ -87,7 +95,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryAllow == null) {
             categoryAllow = new PreferenceCategory(context);
             categoryAllow.setKey(PREF_CATEGORY_ALLOW_KEY);
-            categoryAllow.setTitle(R.string.allow_list_category);
+            categoryAllow.setTitle(R.string.autorun_allow_list_category_title);
             screenRoot.addPreference(categoryAllow);
         }
 
@@ -95,7 +103,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryDeny == null) {
             categoryDeny = new PreferenceCategory(context);
             categoryDeny.setKey(PREF_CATEGORY_DENY_KEY);
-            categoryDeny.setTitle(R.string.deny_list_category);
+            categoryDeny.setTitle(R.string.autorun_deny_list_category_title);
             screenRoot.addPreference(categoryDeny);
         }
         if (!CloudUtils.Verified) return;
