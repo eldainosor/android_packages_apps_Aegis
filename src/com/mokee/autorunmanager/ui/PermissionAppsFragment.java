@@ -17,6 +17,7 @@
 
 package com.mokee.autorunmanager.ui;
 
+import android.Manifest;
 import android.app.AppOpsManager;
 import android.app.Fragment;
 import android.content.Context;
@@ -25,6 +26,7 @@ import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceScreen;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ import com.mokee.cloud.misc.CloudUtils;
 
 public final class PermissionAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
+    private static final String TAG = PermissionAppsFragment.class.getName();
     private static final String PREF_CATEGORY_ALLOW_KEY = "pref_category_allow_key";
     private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
     private static final String APP_OP_MODE = "app_op_mode";
@@ -69,17 +72,21 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         mAppOpsManager = (AppOpsManager) getActivity().getSystemService(Context.APP_OPS_SERVICE);
         setLoading(true /* loading */, false /* animate */);
         mCurAppOpMode = getArguments().getInt(APP_OP_MODE);
+        final SparseArray<String> groups = new SparseArray<String>();
         switch (mCurAppOpMode) {
             case AppOpsManager.OP_BOOT_COMPLETED:
                 mCurCategoryAllowResId = R.string.autorun_allow_list_category_title;
                 mCurCategoryDenyResId = R.string.autorun_deny_list_category_title;
+                groups.put(AppOpsManager.OP_BOOT_COMPLETED, Manifest.permission.RECEIVE_BOOT_COMPLETED);
                 break;
             case AppOpsManager.OP_WAKE_LOCK:
                 mCurCategoryAllowResId = R.string.hibernation_allow_list_category_title;
                 mCurCategoryDenyResId = R.string.hibernation_deny_list_category_title;
+                groups.put(AppOpsManager.OP_WAKE_LOCK, Manifest.permission.WAKE_LOCK);
                 break;
         }
-        mPermissionApps = new PermissionApps(getActivity(), mCurAppOpMode, this);
+
+        mPermissionApps = new PermissionApps(getActivity(), groups, this);
         mPermissionApps.refresh();
     }
 
@@ -101,16 +108,19 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
 
     @Override
     public void onPermissionsLoaded(PermissionApps permissionApps) {
-        Context context = getPreferenceManager().getContext();
 
-        if (context == null) {
+        getPreferenceManager().setSharedPreferencesName("appops_" + mCurAppOpMode);
+        Context mContext = getPreferenceManager().getContext();
+
+        if (mContext == null) {
             return;
         }
 
         screenRoot = getPreferenceScreen();
+
         categoryAllow = (PreferenceCategory) screenRoot.findPreference(PREF_CATEGORY_ALLOW_KEY);
         if (categoryAllow == null) {
-            categoryAllow = new PreferenceCategory(context);
+            categoryAllow = new PreferenceCategory(mContext);
             categoryAllow.setKey(PREF_CATEGORY_ALLOW_KEY);
             categoryAllow.setTitle(mCurCategoryAllowResId);
             screenRoot.addPreference(categoryAllow);
@@ -118,32 +128,48 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
 
         categoryDeny = (PreferenceCategory) screenRoot.findPreference(PREF_CATEGORY_DENY_KEY);
         if (categoryDeny == null) {
-            categoryDeny = new PreferenceCategory(context);
+            categoryDeny = new PreferenceCategory(mContext);
             categoryDeny.setKey(PREF_CATEGORY_DENY_KEY);
             categoryDeny.setTitle(mCurCategoryDenyResId);
             screenRoot.addPreference(categoryDeny);
         }
+
         if (!CloudUtils.Verified) return;
+
         if (permissionApps.getApps().size() != 0) {
             for (final PermissionApp app : permissionApps.getApps()) {
+                boolean isChecked = app.getRequestPermissionStatus().get(mCurAppOpMode);
                 String key = app.getKey();
                 SwitchPreference existingPref = (SwitchPreference) screenRoot.findPreference(key);
                 if (existingPref != null) {
-                    existingPref.setChecked(app.getAllowed());
+                    existingPref.setChecked(isChecked);
                     continue;
                 }
-
-                final SwitchPreference pref = new SwitchPreference(context);
-                pref.setKey(app.getKey());
+                boolean exists = false;
+                for (int index = 0; index < app.getRequestPermissionStatus().size(); index++) {
+                    if (app.getRequestPermissionStatus().keyAt(index) == mCurAppOpMode) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists) continue;
+                SwitchPreference pref = new SwitchPreference(mContext);
+                pref.setKey(key);
                 pref.setIcon(app.getIcon());
                 pref.setTitle(app.getLabel());
-                pref.setChecked(app.getAllowed());
+                pref.setChecked(isChecked);
                 pref.setOnPreferenceChangeListener(this);
-                if (app.getAllowed()) {
+                if (isChecked) {
                     categoryAllow.addPreference(pref);
                 } else {
                     categoryDeny.addPreference(pref);
                 }
+            }
+            if (categoryAllow.getPreferenceCount() == 0) {
+                screenRoot.removePreference(categoryAllow);
+            }
+            if (categoryDeny.getPreferenceCount() == 0) {
+                screenRoot.removePreference(categoryDeny);
             }
         } else {
             screenRoot.removeAll();
@@ -184,4 +210,5 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         }
         return true;
     }
+
 }

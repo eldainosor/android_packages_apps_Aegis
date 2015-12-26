@@ -34,7 +34,7 @@ LOCAL_PROGUARD_FLAG_FILES := proguard.flags
 
 LOCAL_JACK_ENABLED := disabled
 
-LOCAL_PACKAGE_NAME := AutorunManager
+LOCAL_PACKAGE_NAME := Aegis
 
 LOCAL_CERTIFICATE := platform
 

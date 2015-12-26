@@ -17,7 +17,6 @@
 
 package com.mokee.autorunmanager.model;
 
-import android.Manifest;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -27,8 +26,10 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 
 import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
@@ -36,14 +37,12 @@ import com.mokee.utils.PackageUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class PermissionApps {
     private static final String LOG_TAG = "PermissionApps";
     private final Context mContext;
-    private final int mCurAppOpMode;
-    private final String mCurPermissionName;
+    private final SparseArray<String> mRequestPermissionGroups;
     private final PackageManager mPm;
     private final Callback mCallback;
 
@@ -54,24 +53,14 @@ public class PermissionApps {
 
     private boolean mRefreshing;
 
-    public PermissionApps(Context context, int mode, Callback callback) {
-        this(context, mode, callback, null);
+    public PermissionApps(Context context, SparseArray<String> groups, Callback callback) {
+        this(context, groups, callback, null);
     }
 
-    public PermissionApps(Context context, int mode, Callback callback, PmCache cache) {
+    public PermissionApps(Context context, SparseArray<String> groups, Callback callback, PmCache cache) {
         mCache = cache;
         mContext = context;
-        mCurAppOpMode = mode;
-        switch (mCurAppOpMode) {
-            case AppOpsManager.OP_BOOT_COMPLETED:
-                mCurPermissionName = Manifest.permission.RECEIVE_BOOT_COMPLETED;
-                break;
-            case AppOpsManager.OP_WAKE_LOCK:
-                mCurPermissionName = Manifest.permission.WAKE_LOCK;
-                break;
-            default:
-                mCurPermissionName = "";
-        }
+        mRequestPermissionGroups = groups;
         mPm = mContext.getPackageManager();
         mCallback = callback;
     }
@@ -95,8 +84,7 @@ public class PermissionApps {
         if (!CloudUtils.Verified) return null;
         ArrayList<PermissionApp> permApps = new ArrayList<>();
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
-            String key = mCurAppOpMode + "-" + user.getIdentifier();
-            List<PackageInfo> apps = mCache != null ? mCache.getPackages(key, user.getIdentifier())
+            List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier())
                     : mPm.getInstalledPackages(PackageManager.GET_PERMISSIONS,
                     user.getIdentifier());
             AppOpsManager mAppOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
@@ -104,16 +92,22 @@ public class PermissionApps {
                 if (app.requestedPermissions == null) {
                     continue;
                 }
+                SparseBooleanArray requestPermissionStatus = new SparseBooleanArray();
                 for (int j = 0; j < app.requestedPermissions.length; j++) {
                     String requestedPerm = app.requestedPermissions[j];
-                    if (requestedPerm.equals(mCurPermissionName)
-                            && !PackageUtils.isSystem(app.applicationInfo)) {
-                        int mode = mAppOpsManager.checkOp(mCurAppOpMode, app.applicationInfo.uid, app.packageName);
-                        String label = app.applicationInfo.loadLabel(mPm).toString();
-                        PermissionApp permApp = new PermissionApp(app.packageName,
-                                label, app.applicationInfo.loadIcon(mPm), AppOpsManager.MODE_ALLOWED == mode, app.applicationInfo);
-                        permApps.add(permApp);
+                    for (int index = 0; index < mRequestPermissionGroups.size(); index++) {
+                        int key = mRequestPermissionGroups.keyAt(index);
+                        if (TextUtils.equals(requestedPerm, mRequestPermissionGroups.get(key)) && !PackageUtils.isSystem(app.applicationInfo)) {
+                            int mode = mAppOpsManager.checkOp(key, app.applicationInfo.uid, app.packageName);
+                            requestPermissionStatus.put(key, AppOpsManager.MODE_ALLOWED == mode);
+                        }
                     }
+                }
+                if (requestPermissionStatus.size() > 0) {
+                    String label = app.applicationInfo.loadLabel(mPm).toString();
+                    PermissionApp permApp = new PermissionApp(app.packageName,
+                            label, app.applicationInfo.loadIcon(mPm), requestPermissionStatus, app.applicationInfo);
+                    permApps.add(permApp);
                 }
             }
         }
@@ -140,15 +134,14 @@ public class PermissionApps {
         private final String mPackageName;
         private final String mLabel;
         private final Drawable mIcon;
-        private final boolean mAllowed;
+        private final SparseBooleanArray mRequestPermissionStatus;
         private final ApplicationInfo mInfo;
 
-        public PermissionApp(String packageName,
-                             String label, Drawable icon, boolean allowed, ApplicationInfo info) {
+        public PermissionApp(String packageName, String label, Drawable icon, SparseBooleanArray requestPermissionStatus, ApplicationInfo info) {
             mPackageName = packageName;
             mLabel = label;
             mIcon = icon;
-            mAllowed = allowed;
+            mRequestPermissionStatus = requestPermissionStatus;
             mInfo = info;
         }
 
@@ -168,8 +161,8 @@ public class PermissionApps {
             return mIcon;
         }
 
-        public boolean getAllowed() {
-            return mAllowed;
+        public SparseBooleanArray getRequestPermissionStatus() {
+            return mRequestPermissionStatus;
         }
 
         public String getPackageName() {
@@ -197,18 +190,18 @@ public class PermissionApps {
      * instances, and should not be retained across UI refresh.
      */
     public static class PmCache {
-        private final HashMap<String, List<PackageInfo>> mPackageInfoCache = new HashMap<>();
+        private final SparseArray <List<PackageInfo>> mPackageInfoCache = new SparseArray<>();
         private final PackageManager mPm;
 
         public PmCache(PackageManager pm) {
             mPm = pm;
         }
 
-        public synchronized List<PackageInfo> getPackages(String key, int userId) {
-            List<PackageInfo> ret = mPackageInfoCache.get(key);
+        public synchronized List<PackageInfo> getPackages(int userId) {
+            List<PackageInfo> ret = mPackageInfoCache.get(userId);
             if (ret == null) {
                 ret = mPm.getInstalledPackages(PackageManager.GET_PERMISSIONS, userId);
-                mPackageInfoCache.put(key, ret);
+                mPackageInfoCache.put(userId, ret);
             }
             return ret;
         }
