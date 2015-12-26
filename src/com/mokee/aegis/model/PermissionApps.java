@@ -35,6 +35,7 @@ import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +53,8 @@ public class PermissionApps {
     private ArrayMap<String, PermissionApp> mAppLookup;
 
     private boolean mRefreshing;
+
+    private static final String[] WHITE_LIST = { "com.cyanogenmod.lockclock" };
 
     public PermissionApps(Context context, SparseArray<String> groups, Callback callback) {
         this(context, groups, callback, null);
@@ -93,14 +96,13 @@ public class PermissionApps {
                     continue;
                 }
                 SparseBooleanArray requestPermissionStatus = new SparseBooleanArray();
-                for (int j = 0; j < app.requestedPermissions.length; j++) {
-                    String requestedPerm = app.requestedPermissions[j];
-                    for (int index = 0; index < mRequestPermissionGroups.size(); index++) {
-                        int key = mRequestPermissionGroups.keyAt(index);
-                        if (TextUtils.equals(requestedPerm, mRequestPermissionGroups.get(key)) && !PackageUtils.isSystem(app.applicationInfo)) {
-                            int mode = mAppOpsManager.checkOp(key, app.applicationInfo.uid, app.packageName);
-                            requestPermissionStatus.put(key, AppOpsManager.MODE_ALLOWED == mode);
-                        }
+
+                for (int index = 0; index < mRequestPermissionGroups.size(); index++) {
+                    int key = mRequestPermissionGroups.keyAt(index);
+                    boolean permissionExists = Arrays.asList(app.requestedPermissions).contains(mRequestPermissionGroups.get(key));
+                    if (permissionExists && !PackageUtils.isSystem(app.applicationInfo) || permissionExists && PackageUtils.isSystem(app.applicationInfo) && Arrays.asList(WHITE_LIST).contains(app.packageName)) {
+                        int mode = mAppOpsManager.checkOp(key, app.applicationInfo.uid, app.packageName);
+                        requestPermissionStatus.put(key, AppOpsManager.MODE_ALLOWED == mode);
                     }
                 }
                 if (requestPermissionStatus.size() > 0) {
