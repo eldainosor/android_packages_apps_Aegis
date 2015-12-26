@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.autorunmanager.model;
+package com.mokee.aegis.model;
 
 import android.app.AppOpsManager;
 import android.content.Context;

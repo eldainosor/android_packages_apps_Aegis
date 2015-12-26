@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.autorunmanager.ui;
+package com.mokee.aegis.ui;
 
 import android.Manifest;
 import android.app.AppOpsManager;
@@ -30,10 +30,10 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mokee.autorunmanager.R;
-import com.mokee.autorunmanager.model.PermissionApps;
-import com.mokee.autorunmanager.model.PermissionApps.Callback;
-import com.mokee.autorunmanager.model.PermissionApps.PermissionApp;
+import com.mokee.aegis.R;
+import com.mokee.aegis.model.PermissionApps;
+import com.mokee.aegis.model.PermissionApps.Callback;
+import com.mokee.aegis.model.PermissionApps.PermissionApp;
 import com.mokee.cloud.misc.CloudUtils;
 
 public final class PermissionAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {

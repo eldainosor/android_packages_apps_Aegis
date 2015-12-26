@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.autorunmanager.ui;
+package com.mokee.aegis.ui;
 
 import android.app.AppOpsManager;
 import android.app.Fragment;
@@ -27,7 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 
-import com.mokee.autorunmanager.R;
+import com.mokee.aegis.R;
 
 public class ManagePermissionsActivity extends AppCompatActivity {
 

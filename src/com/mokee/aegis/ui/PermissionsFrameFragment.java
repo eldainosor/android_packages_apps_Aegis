@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.autorunmanager.ui;
+package com.mokee.aegis.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +31,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.mokee.autorunmanager.R;
+import com.mokee.aegis.R;
 
 public abstract class PermissionsFrameFragment extends PreferenceFragment {
 
