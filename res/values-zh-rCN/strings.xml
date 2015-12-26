@@ -15,14 +15,14 @@
 
 <resources>
     <string name="app_name">"宙斯盾"</string>
-    <string name="autorun_title">"自动启动"</string>
-    <string name="hibernation_title">"程序休眠"</string>
+    <string name="autorun_title">"开机启动"</string>
+    <string name="wakelock_title">"唤醒屏蔽"</string>
     <!-- Text displayed until loading is done -->
     <string name="loading">"正在加载…"</string>
     <!-- [CHAR LIMIT=NONE] Label when no apps requesting this permission -->
     <string name="no_apps">"没有应用"</string>
-    <string name="autorun_allow_list_category_title">"允许自启的应用"</string>
-    <string name="autorun_deny_list_category_title">"不允许自启的应用"</string>
-    <string name="hibernation_allow_list_category_title">"允许待机时继续运行的应用"</string>
-    <string name="hibernation_deny_list_category_title">"禁止待机时继续运行的应用"</string>
+    <string name="autorun_allow_list_category_title">"允许启动的应用"</string>
+    <string name="autorun_deny_list_category_title">"不允许启动的应用"</string>
+    <string name="wakelock_allow_list_category_title">"允许申请唤醒锁的应用"</string>
+    <string name="wakelock_deny_list_category_title">"不允许申请唤醒锁的应用"</string>
 </resources>

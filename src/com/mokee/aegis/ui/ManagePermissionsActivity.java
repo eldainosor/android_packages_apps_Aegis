@@ -102,7 +102,7 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                 case 0:
                     return getString(R.string.autorun_title);
                 case 1:
-                    return getString(R.string.hibernation_title);
+                    return getString(R.string.wakelock_title);
             }
             return null;
         }

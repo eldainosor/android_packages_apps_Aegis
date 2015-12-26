@@ -16,13 +16,13 @@
 <resources>
     <string name="app_name">Aegis</string>
     <string name="autorun_title">Autorun</string>
-    <string name="hibernation_title">Hibernation</string>
+    <string name="wakelock_title">Wakelock</string>
     <!-- Text displayed until loading is done -->
     <string name="loading">Loading\u2026</string>
     <!-- [CHAR LIMIT=NONE] Label when no apps requesting this permission -->
     <string name="no_apps">No apps</string>
     <string name="autorun_allow_list_category_title">Allow autorun apps</string>
     <string name="autorun_deny_list_category_title">Do not allow auturun apps</string>
-    <string name="hibernation_allow_list_category_title">Allow background apps to continue running</string>
-    <string name="hibernation_deny_list_category_title">Currently hibernating apps</string>
+    <string name="wakelock_allow_list_category_title">Allow holding a wakelock apps</string>
+    <string name="wakelock_deny_list_category_title">Do not allow holding a wakelock apps</string>
 </resources>

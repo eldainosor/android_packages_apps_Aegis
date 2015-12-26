@@ -80,8 +80,8 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
                 groups.put(AppOpsManager.OP_BOOT_COMPLETED, Manifest.permission.RECEIVE_BOOT_COMPLETED);
                 break;
             case AppOpsManager.OP_WAKE_LOCK:
-                mCurCategoryAllowResId = R.string.hibernation_allow_list_category_title;
-                mCurCategoryDenyResId = R.string.hibernation_deny_list_category_title;
+                mCurCategoryAllowResId = R.string.wakelock_allow_list_category_title;
+                mCurCategoryDenyResId = R.string.wakelock_deny_list_category_title;
                 groups.put(AppOpsManager.OP_WAKE_LOCK, Manifest.permission.WAKE_LOCK);
                 break;
         }
