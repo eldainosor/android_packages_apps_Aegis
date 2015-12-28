@@ -34,6 +34,7 @@ import com.mokee.aegis.R;
 import com.mokee.aegis.model.PermissionApps;
 import com.mokee.aegis.model.PermissionApps.Callback;
 import com.mokee.aegis.model.PermissionApps.PermissionApp;
+import com.mokee.aegis.model.PermissionApps.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 
 public final class PermissionAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
@@ -85,8 +86,8 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
                 groups.put(AppOpsManager.OP_WAKE_LOCK, Manifest.permission.WAKE_LOCK);
                 break;
         }
-
-        mPermissionApps = new PermissionApps(getActivity(), groups, this);
+        PmCache cache = new PmCache(getContext().getPackageManager());
+        mPermissionApps = new PermissionApps(getActivity(), groups, this, cache);
         mPermissionApps.refresh();
     }
 

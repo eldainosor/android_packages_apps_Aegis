@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.UserHandle;
 import android.os.UserManager;
-import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -42,19 +41,16 @@ import java.util.List;
 
 public class PermissionApps {
     private static final String LOG_TAG = "PermissionApps";
+    private static final String[] WHITE_LIST = {"com.cyanogenmod.lockclock"};
     private final Context mContext;
     private final SparseArray<String> mRequestPermissionGroups;
     private final PackageManager mPm;
     private final Callback mCallback;
-
     private final PmCache mCache;
     private List<PermissionApp> mPermApps;
     // Map (pkg|uid) -> AppPermission
     private ArrayMap<String, PermissionApp> mAppLookup;
-
     private boolean mRefreshing;
-
-    private static final String[] WHITE_LIST = { "com.cyanogenmod.lockclock" };
 
     public PermissionApps(Context context, SparseArray<String> groups, Callback callback) {
         this(context, groups, callback, null);
@@ -192,7 +188,7 @@ public class PermissionApps {
      * instances, and should not be retained across UI refresh.
      */
     public static class PmCache {
-        private final SparseArray <List<PackageInfo>> mPackageInfoCache = new SparseArray<>();
+        private final SparseArray<List<PackageInfo>> mPackageInfoCache = new SparseArray<>();
         private final PackageManager mPm;
 
         public PmCache(PackageManager pm) {
