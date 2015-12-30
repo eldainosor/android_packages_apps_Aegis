@@ -30,6 +30,7 @@ import android.util.ArrayMap;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
+import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
 
@@ -51,10 +52,6 @@ public class PermissionApps {
     // Map (pkg|uid) -> AppPermission
     private ArrayMap<String, PermissionApp> mAppLookup;
     private boolean mRefreshing;
-
-    public PermissionApps(Context context, SparseArray<String> groups, Callback callback) {
-        this(context, groups, callback, null);
-    }
 
     public PermissionApps(Context context, SparseArray<String> groups, Callback callback, PmCache cache) {
         mCache = cache;
@@ -83,7 +80,7 @@ public class PermissionApps {
         if (!CloudUtils.Verified) return null;
         ArrayList<PermissionApp> permApps = new ArrayList<>();
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
-            List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier())
+            List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), PackageManager.GET_PERMISSIONS)
                     : mPm.getInstalledPackages(PackageManager.GET_PERMISSIONS,
                     user.getIdentifier());
             AppOpsManager mAppOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
@@ -179,29 +176,6 @@ public class PermissionApps {
 
         public int getUid() {
             return getAppInfo().uid;
-        }
-    }
-
-    /**
-     * Class used to reduce the number of calls to the package manager.
-     * This caches app information so it should only be used across parallel PermissionApps
-     * instances, and should not be retained across UI refresh.
-     */
-    public static class PmCache {
-        private final SparseArray<List<PackageInfo>> mPackageInfoCache = new SparseArray<>();
-        private final PackageManager mPm;
-
-        public PmCache(PackageManager pm) {
-            mPm = pm;
-        }
-
-        public synchronized List<PackageInfo> getPackages(int userId) {
-            List<PackageInfo> ret = mPackageInfoCache.get(userId);
-            if (ret == null) {
-                ret = mPm.getInstalledPackages(PackageManager.GET_PERMISSIONS, userId);
-                mPackageInfoCache.put(userId, ret);
-            }
-            return ret;
         }
     }
 

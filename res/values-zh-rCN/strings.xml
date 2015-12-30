@@ -15,14 +15,16 @@
 
 <resources>
     <string name="app_name">"宙斯盾"</string>
-    <string name="autorun_title">"开机启动"</string>
-    <string name="wakelock_title">"唤醒屏蔽"</string>
-    <!-- Text displayed until loading is done -->
     <string name="loading">"正在加载…"</string>
-    <!-- [CHAR LIMIT=NONE] Label when no apps requesting this permission -->
     <string name="no_apps">"没有应用"</string>
+    <string name="autorun_title">"开机启动"</string>
     <string name="autorun_allow_list_category_title">"允许启动的应用"</string>
     <string name="autorun_deny_list_category_title">"不允许启动的应用"</string>
     <string name="wakelock_allow_list_category_title">"允许申请唤醒锁的应用"</string>
     <string name="wakelock_deny_list_category_title">"不允许申请唤醒锁的应用"</string>
+    <string name="wakelock_title">"唤醒屏蔽"</string>
+    <string name="pacifier_title">"沉默权杖"</string>
+    <string name="pacifier_analyzing">"分析程序行为中，请稍后回来看看"</string>
+    <string name="pacifier_allow_list_category_title">"允许下列应用唤起未运行的关联应用"</string>
+    <string name="pacifier_deny_list_category_title">"不允许下列应用唤起未运行的关联应用"</string>
 </resources>
