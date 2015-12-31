@@ -20,6 +20,9 @@ package com.mokee.aegis.ui;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.os.UserHandle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
@@ -28,12 +31,12 @@ import android.support.v7.preference.PreferenceScreen;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.internal.app.IAppOpsService;
 import com.mokee.aegis.PacifierUtils;
 import com.mokee.aegis.R;
 import com.mokee.aegis.model.PacifierApps;
 import com.mokee.aegis.model.PacifierApps.Callback;
 import com.mokee.aegis.model.PacifierApps.PacifierApp;
-import com.mokee.aegis.PacifierInfo.PacifierInfoCache;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 
@@ -44,6 +47,8 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
     private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
 
     private PacifierApps mPacifierApps;
+    IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
+    private final IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
 
     private PreferenceScreen screenRoot;
     private PreferenceCategory categoryAllow;
@@ -51,8 +56,6 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
 
     private int mCurCategoryAllowResId;
     private int mCurCategoryDenyResId;
-
-    private PacifierInfoCache mPacifierInfoCache;
 
     public static Fragment newInstance() {
         return setPermissionName(new PacifierAppsFragment());
@@ -71,8 +74,7 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
         mCurCategoryAllowResId = R.string.pacifier_allow_list_category_title;
         mCurCategoryDenyResId = R.string.pacifier_deny_list_category_title;
         PmCache cache = new PmCache(getContext().getPackageManager());
-        mPacifierInfoCache = PacifierInfoCache.getInstance();
-        mPacifierApps = new PacifierApps(getActivity(), this, cache, mPacifierInfoCache);
+        mPacifierApps = new PacifierApps(getActivity(), this, cache, mAppOps);
         mPacifierApps.refresh();
     }
 
@@ -158,8 +160,12 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         PacifierApp app = mPacifierApps.getApp(preference.getKey());
-        mPacifierInfoCache.updateModeFromPackageUid(UserHandle.myUserId(), app.getPackageName(),
-                UserHandle.myUserId(), (Boolean) newValue ? PacifierUtils.MODE_ALLOWED : PacifierUtils.MODE_ERRORED);
+        try {
+            mAppOps.updateModeFromPackageUid(UserHandle.myUserId(), app.getPackageName(),
+                    UserHandle.myUserId(), (Boolean) newValue ? PacifierUtils.MODE_ALLOWED : PacifierUtils.MODE_ERRORED);
+        } catch (RemoteException e) {
+            return false;
+        }
         if (!(Boolean) newValue) {
             categoryAllow.removePreference(preference);
             categoryDeny.addPreference(preference);

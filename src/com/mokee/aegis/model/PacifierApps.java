@@ -23,12 +23,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.ArrayMap;
 
+import com.android.internal.app.IAppOpsService;
 import com.mokee.aegis.PacifierInfo;
-import com.mokee.aegis.PacifierInfo.PacifierInfoCache;
 import com.mokee.aegis.PacifierUtils;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
@@ -46,7 +47,7 @@ public class PacifierApps {
     private final PackageManager mPm;
     private final Callback mCallback;
     private final PmCache mCache;
-    private PacifierInfoCache mPacifierInfoCache;
+    private IAppOpsService mAppOps;
     private List<PacifierApp> mPacifierApps;
     // Map (pkg|uid) -> AppPermission
     private ArrayMap<String, PacifierApp> mAppLookup;
@@ -56,9 +57,9 @@ public class PacifierApps {
         this(context, callback, null, null);
     }
 
-    public PacifierApps(Context context, Callback callback, PmCache cache, PacifierInfoCache pacifierInfoCache) {
+    public PacifierApps(Context context, Callback callback, PmCache cache, IAppOpsService appOps) {
         mCache = cache;
-        mPacifierInfoCache = pacifierInfoCache;
+        mAppOps = appOps;
         mContext = context;
         mPm = mContext.getPackageManager();
         mCallback = callback;
@@ -86,7 +87,7 @@ public class PacifierApps {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), 0)
                     : mPm.getInstalledPackages(0, user.getIdentifier());
             try {
-                Map<String, PacifierInfo.PackageInfo> mPackageInfo = mPacifierInfoCache.getPacifierInfo(user.getIdentifier());
+                Map<String, PacifierInfo.PackageInfo> mPackageInfo = mAppOps.getPacifierInfo(user.getIdentifier());
                 for (PackageInfo app : apps) {
                     if (mPackageInfo.get(app.packageName) != null && !PackageUtils.isSystem(app.applicationInfo)) {
                         String label = app.applicationInfo.loadLabel(mPm).toString();
@@ -97,6 +98,7 @@ public class PacifierApps {
                     }
                 }
             } catch (NullPointerException e) {
+            } catch (RemoteException e) {
             }
         }
 
