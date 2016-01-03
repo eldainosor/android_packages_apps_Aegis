@@ -20,10 +20,6 @@ package com.mokee.aegis.ui;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
-import android.os.ServiceManager;
-import android.os.UserHandle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
@@ -31,25 +27,21 @@ import android.support.v7.preference.PreferenceScreen;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.internal.app.IAppOpsService;
-import com.mokee.aegis.PacifierUtils;
 import com.mokee.aegis.R;
-import com.mokee.aegis.model.PacifierApps;
-import com.mokee.aegis.model.PacifierApps.Callback;
-import com.mokee.aegis.model.PacifierApps.PacifierApp;
+import com.mokee.aegis.model.HibernateApps;
+import com.mokee.aegis.model.HibernateApps.Callback;
+import com.mokee.aegis.model.HibernateApps.HibernateApp;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 
-public final class PacifierAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
+public final class HibernateAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
-    private static final String TAG = PacifierAppsFragment.class.getName();
+    private static final String TAG = HibernateAppsFragment.class.getName();
     private static final String PREF_CATEGORY_ALLOW_KEY = "pref_category_allow_key";
     private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
 
-    private PacifierApps mPacifierApps;
-    IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
-    private final IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
+    private HibernateApps mHibernateApps;
 
     private PreferenceScreen screenRoot;
     private PreferenceCategory categoryAllow;
@@ -59,7 +51,7 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
     private int mCurCategoryDenyResId;
 
     public static Fragment newInstance() {
-        return setPermissionName(new PacifierAppsFragment());
+        return setPermissionName(new HibernateAppsFragment());
     }
 
     private static <T extends Fragment> T setPermissionName(T fragment) {
@@ -72,17 +64,17 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLoading(true /* loading */, false /* animate */);
-        mCurCategoryAllowResId = R.string.pacifier_allow_list_category_title;
-        mCurCategoryDenyResId = R.string.pacifier_deny_list_category_title;
+        mCurCategoryAllowResId = R.string.hibernate_allow_list_category_title;
+        mCurCategoryDenyResId = R.string.hibernate_deny_list_category_title;
         PmCache cache = new PmCache(getContext().getPackageManager());
-        mPacifierApps = new PacifierApps(getActivity(), this, cache, mAppOps);
-        mPacifierApps.refresh();
+        mHibernateApps = new HibernateApps(getActivity(), this, cache);
+        mHibernateApps.refresh();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPacifierApps.refresh();
+        mHibernateApps.refresh();
     }
 
     @Override
@@ -92,13 +84,13 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
 
     @Override
     protected void onSetEmptyText(TextView textView) {
-        textView.setText(R.string.pacifier_analyzing);
+        textView.setText(R.string.no_apps);
     }
 
     @Override
-    public void onPacifierAppsLoaded(PacifierApps pacifierApps) {
+    public void onHibernateAppsLoaded(HibernateApps hibernateApps) {
 
-        getPreferenceManager().setSharedPreferencesName(PackagesMonitor.PREF_PACIFIER);
+        getPreferenceManager().setSharedPreferencesName(PackagesMonitor.PREF_HIBERNATE);
         Context mContext = getPreferenceManager().getContext();
 
         if (mContext == null) {
@@ -125,8 +117,8 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
 
         if (!CloudUtils.Verified) return;
 
-        if (pacifierApps.getApps().size() != 0) {
-            for (final PacifierApp app : pacifierApps.getApps()) {
+        if (hibernateApps.getApps().size() != 0) {
+            for (final HibernateApp app : hibernateApps.getApps()) {
                 String key = app.getKey();
                 SwitchPreference existingPref = (SwitchPreference) screenRoot.findPreference(key);
                 if (existingPref != null) {
@@ -139,7 +131,7 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
                 pref.setTitle(app.getLabel());
                 pref.setChecked(app.getAllowed());
                 pref.setOnPreferenceChangeListener(this);
-                if (app.getAllowed()) {
+                if (pref.isChecked()) {
                     categoryAllow.addPreference(pref);
                 } else {
                     categoryDeny.addPreference(pref);
@@ -160,13 +152,6 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        PacifierApp app = mPacifierApps.getApp(preference.getKey());
-        try {
-            mAppOps.updateModeFromPackageUid(UserHandle.myUserId(), app.getPackageName(),
-                    UserHandle.myUserId(), (Boolean) newValue ? PacifierUtils.MODE_ALLOWED : PacifierUtils.MODE_ERRORED);
-        } catch (RemoteException e) {
-            return false;
-        }
         if (!(Boolean) newValue) {
             categoryAllow.removePreference(preference);
             categoryDeny.addPreference(preference);

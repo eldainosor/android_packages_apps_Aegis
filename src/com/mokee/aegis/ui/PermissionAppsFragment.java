@@ -194,7 +194,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         if (categoryAllow.getPreferenceCount() == 0) {
             screenRoot.removePreference(categoryAllow);
         } else {
-            if (screenRoot.findPreference(PREF_CATEGORY_ALLOW_KEY) == null) {
+            if (screenRoot.findPreference(PREF_CATEGORY_ALLOW_KEY) == null || categoryAllow.getPreferenceCount() == 1 && (Boolean) newValue) {
                 screenRoot.addPreference(categoryAllow);
                 if (screenRoot.findPreference(PREF_CATEGORY_DENY_KEY) != null) {
                     screenRoot.removePreference(categoryDeny);

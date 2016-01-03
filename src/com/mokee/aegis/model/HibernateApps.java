@@ -18,19 +18,17 @@
 package com.mokee.aegis.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.ArrayMap;
 
-import com.android.internal.app.IAppOpsService;
-import com.mokee.aegis.PacifierInfo;
-import com.mokee.aegis.PacifierUtils;
+import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
@@ -39,91 +37,84 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-public class PacifierApps {
-    private static final String LOG_TAG = "PacifierApps";
+public class HibernateApps {
+    private static final String LOG_TAG = "HibernateApps";
     private final Context mContext;
     private final PackageManager mPm;
     private final Callback mCallback;
     private final PmCache mCache;
-    private IAppOpsService mAppOps;
-    private List<PacifierApp> mPacifierApps;
+    private List<HibernateApp> mHibernateApps;
     // Map (pkg|uid) -> AppPermission
-    private ArrayMap<String, PacifierApp> mAppLookup;
+    private ArrayMap<String, HibernateApp> mAppLookup;
     private boolean mRefreshing;
+    private SharedPreferences mPrefs;
 
-    public PacifierApps(Context context, Callback callback, PmCache cache, IAppOpsService appOps) {
+    public HibernateApps(Context context, Callback callback, PmCache cache) {
         mCache = cache;
-        mAppOps = appOps;
         mContext = context;
         mPm = mContext.getPackageManager();
         mCallback = callback;
+        mPrefs = context.getSharedPreferences(PackagesMonitor.PREF_HIBERNATE, Context.MODE_PRIVATE);
     }
 
     public void refresh() {
         if (!mRefreshing) {
             mRefreshing = true;
-            new PacifierAppsLoader().execute();
+            new HibernateAppsLoader().execute();
         }
     }
 
-    public Collection<PacifierApp> getApps() {
-        return mPacifierApps;
+    public Collection<HibernateApp> getApps() {
+        return mHibernateApps;
     }
 
-    public PacifierApp getApp(String key) {
+    public HibernateApp getApp(String key) {
         return mAppLookup.get(key);
     }
 
-    private List<PacifierApp> loadPacifierApps() {
+    private List<HibernateApp> loadHibernateApps() {
         if (!CloudUtils.Verified) return null;
-        ArrayList<PacifierApp> pacifierApps = new ArrayList<>();
+        ArrayList<HibernateApp> hibernateApps = new ArrayList<>();
+
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), 0)
                     : mPm.getInstalledPackages(0, user.getIdentifier());
-            try {
-                Map<String, PacifierInfo.PackageInfo> mPackageInfo = mAppOps.getPacifierInfo(user.getIdentifier());
-                for (PackageInfo app : apps) {
-                    if (mPackageInfo.get(app.packageName) != null && !PackageUtils.isSystem(app.applicationInfo)) {
-                        String label = app.applicationInfo.loadLabel(mPm).toString();
-                        int mode = mPackageInfo.get(app.packageName).getUidsInfo().get(user.getIdentifier()).getMode();
-                        PacifierApp pacifierApp = new PacifierApp(app.packageName, label,
-                                app.applicationInfo.loadIcon(mPm), mode == PacifierUtils.MODE_ALLOWED, app.applicationInfo);
-                        pacifierApps.add(pacifierApp);
-                    }
+            for (PackageInfo app : apps) {
+                if (!PackageUtils.isSystem(app.applicationInfo)) {
+                    String label = app.applicationInfo.loadLabel(mPm).toString();
+                    HibernateApp hibernateApp = new HibernateApp(app.packageName, label,
+                            app.applicationInfo.loadIcon(mPm), mPrefs.getBoolean(app.packageName, false), app.applicationInfo);
+                    hibernateApps.add(hibernateApp);
                 }
-            } catch (NullPointerException e) {
-            } catch (RemoteException e) {
             }
         }
 
-        Collections.sort(pacifierApps);
+        Collections.sort(hibernateApps);
 
-        return pacifierApps;
+        return hibernateApps;
     }
 
-    private void createMap(List<PacifierApp> result) {
+    private void createMap(List<HibernateApp> result) {
         mAppLookup = new ArrayMap<>();
-        for (PacifierApp app : result) {
+        for (HibernateApp app : result) {
             mAppLookup.put(app.getKey(), app);
         }
-        mPacifierApps = result;
+        mHibernateApps = result;
     }
-
 
     public interface Callback {
-        void onPacifierAppsLoaded(PacifierApps pacifierApps);
+        void onHibernateAppsLoaded(HibernateApps hibernateApps);
     }
 
-    public static class PacifierApp implements Comparable<PacifierApp> {
+    public static class HibernateApp implements Comparable<HibernateApp> {
         private final String mPackageName;
         private final String mLabel;
         private final Drawable mIcon;
         private final boolean mAllowed;
         private final ApplicationInfo mInfo;
 
-        public PacifierApp(String packageName, String label, Drawable icon, boolean allowed, ApplicationInfo info) {
+        public HibernateApp(String packageName, String label, Drawable icon, boolean allowed, ApplicationInfo info) {
             mPackageName = packageName;
             mLabel = label;
             mIcon = icon;
@@ -156,7 +147,7 @@ public class PacifierApps {
         }
 
         @Override
-        public int compareTo(PacifierApp another) {
+        public int compareTo(HibernateApp another) {
             final int result = mLabel.compareTo(another.mLabel);
             if (result == 0) {
                 // Unbadged before badged.
@@ -170,19 +161,19 @@ public class PacifierApps {
         }
     }
 
-    private class PacifierAppsLoader extends AsyncTask<Void, Void, List<PacifierApp>> {
+    private class HibernateAppsLoader extends AsyncTask<Void, Void, List<HibernateApp>> {
 
         @Override
-        protected List<PacifierApp> doInBackground(Void... args) {
-            return loadPacifierApps();
+        protected List<HibernateApp> doInBackground(Void... args) {
+            return loadHibernateApps();
         }
 
         @Override
-        protected void onPostExecute(List<PacifierApp> result) {
+        protected void onPostExecute(List<HibernateApp> result) {
             mRefreshing = false;
             createMap(result);
             if (mCallback != null) {
-                mCallback.onPacifierAppsLoaded(PacifierApps.this);
+                mCallback.onHibernateAppsLoaded(HibernateApps.this);
             }
         }
     }

@@ -88,14 +88,15 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                     return PermissionAppsFragment.newInstance(AppOpsManager.OP_WAKE_LOCK);
                 case 2:
                     return PacifierAppsFragment.newInstance();
+                case 3:
+                    return HibernateAppsFragment.newInstance();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -107,6 +108,8 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                     return getString(R.string.wakelock_title);
                 case 2:
                     return getString(R.string.pacifier_title);
+                case 3:
+                    return getString(R.string.hibernate_title);
             }
             return null;
         }

@@ -25,27 +25,37 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserHandle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.internal.app.IAppOpsService;
+import com.mokee.aegis.service.ManageHibernateService;
 
 public class PackagesMonitor extends BroadcastReceiver {
 
-    private static final String PREF_AUTORUN = "appops_65";
-    private static final String PREF_WAKELOCK = "appops_40";
-    private static final String PREF_PACIFIER = "pacifier";
+    public static final String PREF_AUTORUN = "appops_65";
+    public static final String PREF_WAKELOCK = "appops_40";
+    public static final String PREF_PACIFIER = "pacifier";
+    public static final String PREF_HIBERNATE = "hibernate";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String packageName = intent.getData().getSchemeSpecificPart();
-        if (!TextUtils.isEmpty(packageName)) {
-            try {
-                IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
-                IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
-                mAppOps.removePackageInfo(UserHandle.myUserId(), packageName);
+        String action = intent.getAction();
+        if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            Intent manageHibernateService = new Intent(context, ManageHibernateService.class);
+            context.startService(manageHibernateService);
+        } else if (action.equals(Intent.ACTION_PACKAGE_REMOVED)) {
+            String packageName = intent.getData().getSchemeSpecificPart();
+            if (!TextUtils.isEmpty(packageName)) {
+                try {
+                    IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
+                    IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
+                    mAppOps.removePackageInfo(UserHandle.myUserId(), packageName);
+                } catch (RemoteException e) {
+                }
                 context.getSharedPreferences(PREF_AUTORUN, Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences(PREF_WAKELOCK, Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences(PREF_PACIFIER, Context.MODE_PRIVATE).edit().remove(packageName).apply();
-            } catch (RemoteException e) {
+                context.getSharedPreferences(PREF_HIBERNATE, Context.MODE_PRIVATE).edit().remove(packageName).apply();
             }
         }
     }

@@ -28,6 +28,6 @@
     <string name="pacifier_allow_list_category_title">Allow linked apps to restart via broadcast flags</string>
     <string name="pacifier_deny_list_category_title">Prevent linked apps from restarting via broadcast flags</string>
     <string name="hibernate_title">Hibernate</string>
-    <string name="hibernate_allow_list_category_title">"允许屏幕关闭后强制休眠的应用"</string>
-    <string name="hibernate_deny_list_category_title">"不允许屏幕关闭后强制休眠的应用"</string>
+    <string name="hibernate_allow_list_category_title">Grant hibernate app when screen off</string>
+    <string name="hibernate_deny_list_category_title">Revoke hibernate app when screen off</string>
 </resources>
