@@ -140,7 +140,7 @@ public class PacifierApps {
         }
 
         public String getKey() {
-            return mPackageName + getUid();
+            return mPackageName;
         }
 
         public String getLabel() {

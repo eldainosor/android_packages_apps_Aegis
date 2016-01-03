@@ -145,7 +145,7 @@ public class PermissionApps {
         }
 
         public String getKey() {
-            return mPackageName + getUid();
+            return mPackageName;
         }
 
         public String getLabel() {
