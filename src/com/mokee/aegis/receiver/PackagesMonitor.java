@@ -30,6 +30,10 @@ import com.android.internal.app.IAppOpsService;
 
 public class PackagesMonitor extends BroadcastReceiver {
 
+    private static final String PREF_AUTORUN = "appops_65";
+    private static final String PREF_WAKELOCK = "appops_40";
+    private static final String PREF_PACIFIER = "pacifier";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String packageName = intent.getData().getSchemeSpecificPart();
@@ -38,6 +42,9 @@ public class PackagesMonitor extends BroadcastReceiver {
                 IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
                 IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
                 mAppOps.removePackageInfo(UserHandle.myUserId(), packageName);
+                context.getSharedPreferences(PREF_AUTORUN, Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                context.getSharedPreferences(PREF_WAKELOCK, Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                context.getSharedPreferences(PREF_PACIFIER, Context.MODE_PRIVATE).edit().remove(packageName).apply();
             } catch (RemoteException e) {
             }
         }

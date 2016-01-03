@@ -29,6 +29,10 @@
             </intent-filter>
         </receiver>
 
+        <service
+            android:name=".service.ManageHibernateService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>
