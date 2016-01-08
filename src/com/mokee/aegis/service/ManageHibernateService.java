@@ -26,14 +26,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.os.IBinder;
-import android.os.UserHandle;
-import android.os.UserManager;
 
 import com.mokee.aegis.receiver.PackagesMonitor;
 
-import java.util.List;
+import java.util.Map;
 
 public class ManageHibernateService extends Service {
 
@@ -49,12 +46,10 @@ public class ManageHibernateService extends Service {
         public void onReceive(Context mContext, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Intent.ACTION_SCREEN_OFF)) {
-                for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
-                    List<PackageInfo> apps = getPackageManager().getInstalledPackages(0, user.getIdentifier());
-                    for (PackageInfo app : apps) {
-                        if (prefs.getBoolean(app.packageName, false)) {
-                            mUsageStats.setAppInactive(app.packageName, true);
-                        }
+                Map<String, ?> apps = prefs.getAll();
+                for (Map.Entry<String, ?> entry : apps.entrySet()) {
+                    if ((Boolean)entry.getValue()) {
+                        mUsageStats.setAppInactive(entry.getKey(), true);
                     }
                 }
             }
