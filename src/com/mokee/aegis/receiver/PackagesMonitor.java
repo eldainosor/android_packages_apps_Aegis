@@ -49,7 +49,7 @@ public class PackagesMonitor extends BroadcastReceiver {
                 try {
                     IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
                     IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
-                    mAppOps.removePackageInfo(UserHandle.myUserId(), packageName);
+                    mAppOps.removePacifierPackageInfoFromUid(UserHandle.myUserId(), packageName, UserHandle.myUserId());
                 } catch (RemoteException e) {
                 }
                 context.getSharedPreferences(PREF_AUTORUN, Context.MODE_PRIVATE).edit().remove(packageName).apply();

@@ -162,7 +162,7 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         PacifierApp app = mPacifierApps.getApp(preference.getKey());
         try {
-            mAppOps.updateModeFromPackageUid(UserHandle.myUserId(), app.getPackageName(),
+            mAppOps.updatePacifierModeFromUid(UserHandle.myUserId(), app.getPackageName(),
                     UserHandle.myUserId(), (Boolean) newValue ? PacifierUtils.MODE_ALLOWED : PacifierUtils.MODE_ERRORED);
         } catch (RemoteException e) {
             return false;
