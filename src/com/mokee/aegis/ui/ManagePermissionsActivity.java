@@ -90,13 +90,15 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                     return PacifierAppsFragment.newInstance();
                 case 3:
                     return HibernateAppsFragment.newInstance();
+                case 4:
+                    return WardenAppsFragment.newInstance();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
@@ -110,6 +112,8 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                     return getString(R.string.pacifier_title);
                 case 3:
                     return getString(R.string.hibernate_title);
+                case 4:
+                    return getString(R.string.warden_title);
             }
             return null;
         }

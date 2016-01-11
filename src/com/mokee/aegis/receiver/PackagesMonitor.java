@@ -36,6 +36,7 @@ public class PackagesMonitor extends BroadcastReceiver {
     public static final String PREF_WAKELOCK = "appops_40";
     public static final String PREF_PACIFIER = "pacifier";
     public static final String PREF_HIBERNATE = "hibernate";
+    public static final String PREF_WARDEN = "warden";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,12 +51,14 @@ public class PackagesMonitor extends BroadcastReceiver {
                     IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
                     IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
                     mAppOps.removePacifierPackageInfoFromUid(UserHandle.myUserId(), packageName, UserHandle.myUserId());
+                    mAppOps.removeWardenPackageInfoFromUid(UserHandle.myUserId(), packageName, UserHandle.myUserId());
                 } catch (RemoteException e) {
                 }
                 context.getSharedPreferences(PREF_AUTORUN, Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences(PREF_WAKELOCK, Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences(PREF_PACIFIER, Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences(PREF_HIBERNATE, Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                context.getSharedPreferences(PREF_WARDEN, Context.MODE_PRIVATE).edit().remove(packageName).apply();
             }
         }
     }
