@@ -44,7 +44,7 @@ public class PackagesMonitor extends BroadcastReceiver {
         if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             Intent manageHibernateService = new Intent(context, ManageHibernateService.class);
             context.startService(manageHibernateService);
-        } else if (action.equals(Intent.ACTION_PACKAGE_REMOVED)) {
+        } else if (action.equals(Intent.ACTION_PACKAGE_REMOVED) && !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
             String packageName = intent.getData().getSchemeSpecificPart();
             if (!TextUtils.isEmpty(packageName)) {
                 try {

@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.android.internal.app.IAppOpsService;
 import com.mokee.aegis.R;
+import com.mokee.aegis.WardenInfo.PackageInfo;
 import com.mokee.aegis.WardenUtils;
 import com.mokee.aegis.model.WardenApps;
 import com.mokee.aegis.model.WardenApps.Callback;
@@ -75,7 +76,7 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
         mCurCategoryAllowResId = R.string.warden_allow_list_category_title;
         mCurCategoryDenyResId = R.string.warden_deny_list_category_title;
         PmCache cache = new PmCache(getContext().getPackageManager());
-        mWardenApps = new WardenApps(getActivity(), this, cache);
+        mWardenApps = new WardenApps(getActivity(), this, cache, mAppOps);
         mWardenApps.refresh();
     }
 
@@ -162,10 +163,13 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         WardenApp app = mWardenApps.getApp(preference.getKey());
         try {
-            if (mAppOps.getWardenInfo(UserHandle.myUserId()) == null || mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.getKey()) == null) {
+            try {
+                ((PackageInfo)mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.getKey())).getUidsInfo().get(UserHandle.myUserId()).getUid();
+            } catch (NullPointerException e) {
                 mAppOps.addWardenPackageInfo(UserHandle.myUserId(), app.getKey(), UserHandle.myUserId());
             }
-            mAppOps.updateWardenModeFromUid(UserHandle.myUserId(), app.getKey(), UserHandle.myUserId(), (Boolean) newValue ? WardenUtils.MODE_ALLOWED : WardenUtils.MODE_ERRORED);
+            mAppOps.updateWardenModeFromUid(UserHandle.myUserId(), app.getKey(),
+                    UserHandle.myUserId(), (Boolean) newValue ? WardenUtils.MODE_ALLOWED : WardenUtils.MODE_ERRORED);
         } catch (RemoteException e) {
             return false;
         }

@@ -24,10 +24,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.ArrayMap;
 
+import com.android.internal.app.IAppOpsService;
+import com.mokee.aegis.WardenInfo;
+import com.mokee.aegis.WardenUtils;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
@@ -44,16 +48,18 @@ public class WardenApps {
     private final PackageManager mPm;
     private final Callback mCallback;
     private final PmCache mCache;
+    private IAppOpsService mAppOps;
     private List<WardenApp> mWardenApps;
     // Map (pkg|uid) -> AppPermission
     private ArrayMap<String, WardenApp> mAppLookup;
     private boolean mRefreshing;
     private SharedPreferences mPrefs;
 
-    public WardenApps(Context context, Callback callback, PmCache cache) {
+    public WardenApps(Context context, Callback callback, PmCache cache, IAppOpsService appOps) {
         mCache = cache;
         mContext = context;
         mPm = mContext.getPackageManager();
+        mAppOps = appOps;
         mCallback = callback;
         mPrefs = context.getSharedPreferences(PackagesMonitor.PREF_WARDEN, Context.MODE_PRIVATE);
     }
@@ -83,8 +89,16 @@ public class WardenApps {
             for (PackageInfo app : apps) {
                 if (!PackageUtils.isSystem(app.applicationInfo)) {
                     String label = app.applicationInfo.loadLabel(mPm).toString();
+                    boolean isAllowed;
+                    try {
+                        isAllowed = ((WardenInfo.PackageInfo)mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.packageName)).getUidsInfo().get(UserHandle.myUserId()).getMode() == WardenUtils.MODE_ALLOWED;
+                    } catch (RemoteException e) {
+                        isAllowed = true;
+                    } catch (NullPointerException e) {
+                        isAllowed = true;
+                    }
                     WardenApp wardenApp = new WardenApp(app.packageName, label,
-                            app.applicationInfo.loadIcon(mPm), mPrefs.getBoolean(app.packageName, true), app.applicationInfo);
+                            app.applicationInfo.loadIcon(mPm), isAllowed, app.applicationInfo);
                     wardenApps.add(wardenApp);
                 }
             }
