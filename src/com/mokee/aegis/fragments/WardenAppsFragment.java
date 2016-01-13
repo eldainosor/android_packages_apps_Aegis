@@ -15,11 +15,15 @@
  *
  */
 
-package com.mokee.aegis.ui;
+package com.mokee.aegis.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.ServiceManager;
+import android.os.UserHandle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
@@ -27,21 +31,26 @@ import android.support.v7.preference.PreferenceScreen;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.internal.app.IAppOpsService;
 import com.mokee.aegis.R;
-import com.mokee.aegis.model.HibernateApps;
-import com.mokee.aegis.model.HibernateApps.Callback;
-import com.mokee.aegis.model.HibernateApps.HibernateApp;
+import com.mokee.aegis.WardenInfo.PackageInfo;
+import com.mokee.aegis.WardenUtils;
+import com.mokee.aegis.model.WardenApps;
+import com.mokee.aegis.model.WardenApps.Callback;
+import com.mokee.aegis.model.WardenApps.WardenApp;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 
-public final class HibernateAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
+public final class WardenAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
-    private static final String TAG = HibernateAppsFragment.class.getName();
+    private static final String TAG = WardenAppsFragment.class.getName();
     private static final String PREF_CATEGORY_ALLOW_KEY = "pref_category_allow_key";
     private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
 
-    private HibernateApps mHibernateApps;
+    IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
+    private final IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
+    private WardenApps mWardenApps;
 
     private PreferenceScreen screenRoot;
     private PreferenceCategory categoryAllow;
@@ -51,7 +60,7 @@ public final class HibernateAppsFragment extends PermissionsFrameFragment implem
     private int mCurCategoryDenyResId;
 
     public static Fragment newInstance() {
-        return setPermissionName(new HibernateAppsFragment());
+        return setPermissionName(new WardenAppsFragment());
     }
 
     private static <T extends Fragment> T setPermissionName(T fragment) {
@@ -64,17 +73,17 @@ public final class HibernateAppsFragment extends PermissionsFrameFragment implem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLoading(true /* loading */, false /* animate */);
-        mCurCategoryAllowResId = R.string.hibernate_allow_list_category_title;
-        mCurCategoryDenyResId = R.string.hibernate_deny_list_category_title;
+        mCurCategoryAllowResId = R.string.warden_allow_list_category_title;
+        mCurCategoryDenyResId = R.string.warden_deny_list_category_title;
         PmCache cache = new PmCache(getContext().getPackageManager());
-        mHibernateApps = new HibernateApps(getActivity(), this, cache);
-        mHibernateApps.refresh();
+        mWardenApps = new WardenApps(getActivity(), this, cache, mAppOps);
+        mWardenApps.refresh();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mHibernateApps.refresh();
+        mWardenApps.refresh();
     }
 
     @Override
@@ -88,9 +97,9 @@ public final class HibernateAppsFragment extends PermissionsFrameFragment implem
     }
 
     @Override
-    public void onHibernateAppsLoaded(HibernateApps hibernateApps) {
+    public void onWardenAppsLoaded(WardenApps wardenApps) {
 
-        getPreferenceManager().setSharedPreferencesName(PackagesMonitor.PREF_HIBERNATE);
+        getPreferenceManager().setSharedPreferencesName(PackagesMonitor.PREF_WARDEN);
         Context mContext = getPreferenceManager().getContext();
 
         if (mContext == null) {
@@ -117,8 +126,8 @@ public final class HibernateAppsFragment extends PermissionsFrameFragment implem
 
         if (!CloudUtils.Verified) return;
 
-        if (hibernateApps.getApps().size() != 0) {
-            for (final HibernateApp app : hibernateApps.getApps()) {
+        if (wardenApps.getApps().size() != 0) {
+            for (final WardenApp app : wardenApps.getApps()) {
                 String key = app.getKey();
                 SwitchPreference existingPref = (SwitchPreference) screenRoot.findPreference(key);
                 if (existingPref != null) {
@@ -152,6 +161,18 @@ public final class HibernateAppsFragment extends PermissionsFrameFragment implem
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        WardenApp app = mWardenApps.getApp(preference.getKey());
+        try {
+            try {
+                ((PackageInfo)mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.getKey())).getUidsInfo().get(UserHandle.myUserId()).getUid();
+            } catch (NullPointerException e) {
+                mAppOps.addWardenPackageInfo(UserHandle.myUserId(), app.getKey(), UserHandle.myUserId());
+            }
+            mAppOps.updateWardenModeFromUid(UserHandle.myUserId(), app.getKey(),
+                    UserHandle.myUserId(), (Boolean) newValue ? WardenUtils.MODE_ALLOWED : WardenUtils.MODE_ERRORED);
+        } catch (RemoteException e) {
+            return false;
+        }
         if (!(Boolean) newValue) {
             categoryAllow.removePreference(preference);
             categoryDeny.addPreference(preference);

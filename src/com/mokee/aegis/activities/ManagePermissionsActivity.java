@@ -15,19 +15,26 @@
  *
  */
 
-package com.mokee.aegis.ui;
+package com.mokee.aegis.activities;
 
 import android.app.AppOpsManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.mokee.aegis.R;
+import com.mokee.aegis.fragments.HibernateAppsFragment;
+import com.mokee.aegis.fragments.PacifierAppsFragment;
+import com.mokee.aegis.fragments.PermissionAppsFragment;
+import com.mokee.aegis.fragments.WardenAppsFragment;
 
 public class ManagePermissionsActivity extends AppCompatActivity {
 
@@ -56,16 +63,22 @@ public class ManagePermissionsActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+        }
+        return true;
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     /**

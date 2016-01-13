@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.aegis.ui;
+package com.mokee.aegis.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

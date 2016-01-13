@@ -17,6 +17,7 @@
     <string name="app_name">Aegis</string>
     <string name="loading">Loading\u2026</string>
     <string name="no_apps">No apps</string>
+    <string name="action_settings">Settings</string>
     <string name="autorun_title">Autorun</string>
     <string name="autorun_allow_list_category_title">Grant autorun permissions</string>
     <string name="autorun_deny_list_category_title">Revoke autorun permissions</string>
@@ -33,4 +34,7 @@
     <string name="warden_title">Warden</string>
     <string name="warden_allow_list_category_title">Allow start background services when not running app</string>
     <string name="warden_deny_list_category_title">Restrict start background services when not running app</string>
+    <string name="warden_category_title">Warden advanced settings</string>
+    <string name="warden_force_stop_title">Force stop</string>
+    <string name="warden_force_stop_summary">Force stop restricted app when leaving</string>
 </resources>

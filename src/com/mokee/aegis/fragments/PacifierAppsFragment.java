@@ -15,7 +15,7 @@
  *
  */
 
-package com.mokee.aegis.ui;
+package com.mokee.aegis.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -32,25 +32,24 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.internal.app.IAppOpsService;
+import com.mokee.aegis.PacifierUtils;
 import com.mokee.aegis.R;
-import com.mokee.aegis.WardenInfo.PackageInfo;
-import com.mokee.aegis.WardenUtils;
-import com.mokee.aegis.model.WardenApps;
-import com.mokee.aegis.model.WardenApps.Callback;
-import com.mokee.aegis.model.WardenApps.WardenApp;
+import com.mokee.aegis.model.PacifierApps;
+import com.mokee.aegis.model.PacifierApps.Callback;
+import com.mokee.aegis.model.PacifierApps.PacifierApp;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
 import com.mokee.cloud.misc.CloudUtils;
 
-public final class WardenAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
+public final class PacifierAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
-    private static final String TAG = WardenAppsFragment.class.getName();
+    private static final String TAG = PacifierAppsFragment.class.getName();
     private static final String PREF_CATEGORY_ALLOW_KEY = "pref_category_allow_key";
     private static final String PREF_CATEGORY_DENY_KEY = "pref_category_deny_key";
 
+    private PacifierApps mPacifierApps;
     IBinder iBinder = ServiceManager.getService(Context.APP_OPS_SERVICE);
     private final IAppOpsService mAppOps = IAppOpsService.Stub.asInterface(iBinder);
-    private WardenApps mWardenApps;
 
     private PreferenceScreen screenRoot;
     private PreferenceCategory categoryAllow;
@@ -60,7 +59,7 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
     private int mCurCategoryDenyResId;
 
     public static Fragment newInstance() {
-        return setPermissionName(new WardenAppsFragment());
+        return setPermissionName(new PacifierAppsFragment());
     }
 
     private static <T extends Fragment> T setPermissionName(T fragment) {
@@ -73,17 +72,17 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLoading(true /* loading */, false /* animate */);
-        mCurCategoryAllowResId = R.string.warden_allow_list_category_title;
-        mCurCategoryDenyResId = R.string.warden_deny_list_category_title;
+        mCurCategoryAllowResId = R.string.pacifier_allow_list_category_title;
+        mCurCategoryDenyResId = R.string.pacifier_deny_list_category_title;
         PmCache cache = new PmCache(getContext().getPackageManager());
-        mWardenApps = new WardenApps(getActivity(), this, cache, mAppOps);
-        mWardenApps.refresh();
+        mPacifierApps = new PacifierApps(getActivity(), this, cache, mAppOps);
+        mPacifierApps.refresh();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mWardenApps.refresh();
+        mPacifierApps.refresh();
     }
 
     @Override
@@ -93,13 +92,13 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
 
     @Override
     protected void onSetEmptyText(TextView textView) {
-        textView.setText(R.string.no_apps);
+        textView.setText(R.string.pacifier_analyzing);
     }
 
     @Override
-    public void onWardenAppsLoaded(WardenApps wardenApps) {
+    public void onPacifierAppsLoaded(PacifierApps pacifierApps) {
 
-        getPreferenceManager().setSharedPreferencesName(PackagesMonitor.PREF_WARDEN);
+        getPreferenceManager().setSharedPreferencesName(PackagesMonitor.PREF_PACIFIER);
         Context mContext = getPreferenceManager().getContext();
 
         if (mContext == null) {
@@ -126,8 +125,8 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
 
         if (!CloudUtils.Verified) return;
 
-        if (wardenApps.getApps().size() != 0) {
-            for (final WardenApp app : wardenApps.getApps()) {
+        if (pacifierApps.getApps().size() != 0) {
+            for (final PacifierApp app : pacifierApps.getApps()) {
                 String key = app.getKey();
                 SwitchPreference existingPref = (SwitchPreference) screenRoot.findPreference(key);
                 if (existingPref != null) {
@@ -140,7 +139,7 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
                 pref.setTitle(app.getLabel());
                 pref.setChecked(app.getAllowed());
                 pref.setOnPreferenceChangeListener(this);
-                if (pref.isChecked()) {
+                if (app.getAllowed()) {
                     categoryAllow.addPreference(pref);
                 } else {
                     categoryDeny.addPreference(pref);
@@ -161,15 +160,10 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        WardenApp app = mWardenApps.getApp(preference.getKey());
+        PacifierApp app = mPacifierApps.getApp(preference.getKey());
         try {
-            try {
-                ((PackageInfo)mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.getKey())).getUidsInfo().get(UserHandle.myUserId()).getUid();
-            } catch (NullPointerException e) {
-                mAppOps.addWardenPackageInfo(UserHandle.myUserId(), app.getKey(), UserHandle.myUserId());
-            }
-            mAppOps.updateWardenModeFromUid(UserHandle.myUserId(), app.getKey(),
-                    UserHandle.myUserId(), (Boolean) newValue ? WardenUtils.MODE_ALLOWED : WardenUtils.MODE_ERRORED);
+            mAppOps.updatePacifierModeFromUid(UserHandle.myUserId(), app.getPackageName(),
+                    UserHandle.myUserId(), (Boolean) newValue ? PacifierUtils.MODE_ALLOWED : PacifierUtils.MODE_ERRORED);
         } catch (RemoteException e) {
             return false;
         }
