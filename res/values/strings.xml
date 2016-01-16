@@ -26,8 +26,8 @@
     <string name="wakelock_deny_list_category_title">Revoke wakelock permissions</string>
     <string name="pacifier_title">Pacifier</string>
     <string name="pacifier_analyzing">Analyzing app behaviors, please check again laster</string>
-    <string name="pacifier_allow_list_category_title">Allow linked apps to restart via broadcast flags</string>
-    <string name="pacifier_deny_list_category_title">Prevent linked apps from restarting via broadcast flags</string>
+    <string name="pacifier_allow_list_category_title">Allow send broadcast to stopped and linked apps</string>
+    <string name="pacifier_deny_list_category_title">Prevent send broadcast to stopped and linked apps</string>
     <string name="hibernate_title">Hibernate</string>
     <string name="hibernate_allow_list_category_title">Grant hibernate app when screen off</string>
     <string name="hibernate_deny_list_category_title">Revoke hibernate app when screen off</string>
@@ -36,5 +36,5 @@
     <string name="warden_deny_list_category_title">Restrict start background services when not running app</string>
     <string name="warden_category_title">Warden advanced settings</string>
     <string name="warden_force_stop_title">Force stop</string>
-    <string name="warden_force_stop_summary">Force stop restricted app when leaving</string>
+    <string name="warden_force_stop_summary">Force stop restricted app when press home button to leave</string>
 </resources>
