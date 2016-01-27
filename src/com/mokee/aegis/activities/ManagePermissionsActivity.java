@@ -59,6 +59,7 @@ public class ManagePermissionsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(2);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -100,11 +101,11 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                 case 1:
                     return PermissionAppsFragment.newInstance(AppOpsManager.OP_WAKE_LOCK);
                 case 2:
-                    return PacifierAppsFragment.newInstance();
+                    return WardenAppsFragment.newInstance();
                 case 3:
                     return HibernateAppsFragment.newInstance();
                 case 4:
-                    return WardenAppsFragment.newInstance();
+                    return PacifierAppsFragment.newInstance();
             }
             return null;
         }
@@ -122,11 +123,11 @@ public class ManagePermissionsActivity extends AppCompatActivity {
                 case 1:
                     return getString(R.string.wakelock_title);
                 case 2:
-                    return getString(R.string.pacifier_title);
+                    return getString(R.string.warden_title);
                 case 3:
                     return getString(R.string.hibernate_title);
                 case 4:
-                    return getString(R.string.warden_title);
+                    return getString(R.string.pacifier_title);
             }
             return null;
         }
