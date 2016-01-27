@@ -91,7 +91,7 @@ public class WardenApps {
                     String label = app.applicationInfo.loadLabel(mPm).toString();
                     boolean isAllowed;
                     try {
-                        isAllowed = ((WardenInfo.PackageInfo)mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.packageName)).getUidsInfo().get(UserHandle.myUserId()).getMode() == WardenUtils.MODE_ALLOWED;
+                        isAllowed = ((WardenInfo.PackageInfo) mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.packageName)).getUidsInfo().get(UserHandle.myUserId()).getMode() == WardenUtils.MODE_ALLOWED;
                     } catch (RemoteException e) {
                         isAllowed = true;
                     } catch (NullPointerException e) {

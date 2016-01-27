@@ -75,8 +75,7 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
         setLoading(true /* loading */, false /* animate */);
         mCurCategoryAllowResId = R.string.warden_allow_list_category_title;
         mCurCategoryDenyResId = R.string.warden_deny_list_category_title;
-        PmCache cache = new PmCache(getContext().getPackageManager());
-        mWardenApps = new WardenApps(getActivity(), this, cache, mAppOps);
+        mWardenApps = new WardenApps(getActivity(), this, PmCache.getPmCache(getContext()), mAppOps);
         mWardenApps.refresh();
     }
 

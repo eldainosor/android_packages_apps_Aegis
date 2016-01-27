@@ -66,8 +66,7 @@ public final class HibernateAppsFragment extends PermissionsFrameFragment implem
         setLoading(true /* loading */, false /* animate */);
         mCurCategoryAllowResId = R.string.hibernate_allow_list_category_title;
         mCurCategoryDenyResId = R.string.hibernate_deny_list_category_title;
-        PmCache cache = new PmCache(getContext().getPackageManager());
-        mHibernateApps = new HibernateApps(getActivity(), this, cache);
+        mHibernateApps = new HibernateApps(getActivity(), this, PmCache.getPmCache(getContext()));
         mHibernateApps.refresh();
     }
 

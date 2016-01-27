@@ -74,8 +74,7 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
         setLoading(true /* loading */, false /* animate */);
         mCurCategoryAllowResId = R.string.pacifier_allow_list_category_title;
         mCurCategoryDenyResId = R.string.pacifier_deny_list_category_title;
-        PmCache cache = new PmCache(getContext().getPackageManager());
-        mPacifierApps = new PacifierApps(getActivity(), this, cache, mAppOps);
+        mPacifierApps = new PacifierApps(getActivity(), this, PmCache.getPmCache(getContext()), mAppOps);
         mPacifierApps.refresh();
     }
 

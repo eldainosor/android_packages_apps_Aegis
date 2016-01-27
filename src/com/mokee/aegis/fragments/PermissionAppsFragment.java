@@ -86,8 +86,7 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
                 groups.put(AppOpsManager.OP_WAKE_LOCK, Manifest.permission.WAKE_LOCK);
                 break;
         }
-        PmCache cache = new PmCache(getContext().getPackageManager());
-        mPermissionApps = new PermissionApps(getActivity(), groups, this, cache);
+        mPermissionApps = new PermissionApps(getActivity(), groups, this, PmCache.getPmCache(getContext()));
         mPermissionApps.refresh();
     }
 

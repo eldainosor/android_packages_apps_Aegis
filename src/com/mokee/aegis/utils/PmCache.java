@@ -17,6 +17,7 @@
 
 package com.mokee.aegis.utils;
 
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.SparseArray;
@@ -44,4 +45,9 @@ public class PmCache {
         }
         return ret;
     }
+
+    public static PmCache getPmCache(Context context) {
+        return new PmCache(context.getPackageManager());
+    }
+
 }
