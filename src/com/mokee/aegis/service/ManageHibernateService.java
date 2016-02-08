@@ -27,6 +27,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 
 import com.mokee.aegis.receiver.PackagesMonitor;
 
@@ -40,16 +41,26 @@ public class ManageHibernateService extends Service {
 
     private UsageStatsManager mUsageStats;
 
+    private static final String KEY_AEGIS_HIBERNATE_WAKEUP = "aegis_hibernate_wakeup";
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context mContext, Intent intent) {
             String action = intent.getAction();
+            Map<String, ?> apps = prefs.getAll();
             if (action.equals(Intent.ACTION_SCREEN_OFF)) {
-                Map<String, ?> apps = prefs.getAll();
                 for (Map.Entry<String, ?> entry : apps.entrySet()) {
-                    if ((Boolean)entry.getValue()) {
+                    if ((Boolean)entry.getValue() && !mUsageStats.isAppInactive(entry.getKey())) {
                         mUsageStats.setAppInactive(entry.getKey(), true);
+                    }
+                }
+            } else if (action.equals(Intent.ACTION_SCREEN_ON)) {
+                if (PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean(KEY_AEGIS_HIBERNATE_WAKEUP, false)) {
+                    for (Map.Entry<String, ?> entry : apps.entrySet()) {
+                        if ((Boolean)entry.getValue() && mUsageStats.isAppInactive(entry.getKey())) {
+                            mUsageStats.setAppInactive(entry.getKey(), false);
+                        }
                     }
                 }
             }
@@ -85,6 +96,7 @@ public class ManageHibernateService extends Service {
         super.onStart(intent, startId);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(mReceiver, filter);
         prefs = getSharedPreferences(PackagesMonitor.PREF_HIBERNATE, Context.MODE_PRIVATE);
         mUsageStats = getSystemService(UsageStatsManager.class);
