@@ -25,6 +25,7 @@
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">Надати дозвіл wakelock </string>
   <string name="wakelock_deny_list_category_title">Скасувати дозвіл wakelock</string>
+  <string name="pacifier_title">Заспокоювач</string>
   <string name="pacifier_analyzing">Аналіз поведінки додатку, будь ласка, перевірте знову пізніше</string>
   <string name="hibernate_title">Режим глибокого сну</string>
   <string name="hibernate_allow_list_category_title">Дозволяти додаткам режим глибокого сну, коли екран вимкнено</string>

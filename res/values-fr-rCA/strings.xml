@@ -22,4 +22,5 @@
   <string name="autorun_title">Démarrage auto.</string>
   <string name="autorun_allow_list_category_title">Autoriser démarrage auto.</string>
   <string name="autorun_deny_list_category_title">Annuler autorisations de démarrage auto.</string>
+  <string name="wakelock_title">Wakelock</string>
 </resources>
