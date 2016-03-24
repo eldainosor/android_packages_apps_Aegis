@@ -23,4 +23,9 @@
   <string name="autorun_allow_list_category_title">Autoriser démarrage auto.</string>
   <string name="autorun_deny_list_category_title">Annuler autorisations de démarrage auto.</string>
   <string name="wakelock_title">Wakelock</string>
+  <string name="wakelock_allow_list_category_title">Accorder les autorisations de wakelock</string>
+  <string name="wakelock_deny_list_category_title">Annuler les autorisations de wakelock</string>
+  <string name="hibernate_title">Hiberner</string>
+  <string name="hibernate_wakeup_title">Réveiller</string>
+  <string name="warden_force_stop_title">Forcer l\'arrêt</string>
 </resources>
