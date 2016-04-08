@@ -18,6 +18,7 @@
   <string name="loading">Φόρτωση\u2026</string>
   <string name="no_apps">Χωρίς εφαρμογές</string>
   <string name="action_settings">Ρυθμίσεις</string>
+  <string name="autorun_title">Αυτόματη εκτέλεση</string>
   <string name="hibernate_wakeup_title">Αφύπνιση</string>
   <string name="warden_force_stop_title">Αναγκαστική διακοπή</string>
   <string name="warden_force_stop_summary">Αναγκαστική διακοπή προστατευμένης εφαρμογής κατά την αναχώρηση</string>
