@@ -15,5 +15,11 @@
      limitations under the License.
  -->
 <resources>
+  <string name="app_name">Aegis</string>
   <string name="loading">Aan het laden\u2026</string>
+  <string name="no_apps">Geen apps</string>
+  <string name="action_settings">Instellingen</string>
+  <string name="autorun_title">Autorun</string>
+  <string name="autorun_allow_list_category_title">Autorun rechten toekennen</string>
+  <string name="autorun_deny_list_category_title">Autorun rechten intrekken</string>
 </resources>
