@@ -15,5 +15,18 @@
      limitations under the License.
  -->
 <resources>
+  <string name="app_name">Aegis</string>
   <string name="loading">Nahrávám\u2026</string>
+  <string name="no_apps">Žádné aplikace</string>
+  <string name="action_settings">Nastavení</string>
+  <string name="autorun_title">Automatické spuštění</string>
+  <string name="autorun_allow_list_category_title">Udělit oprávnění autorun</string>
+  <string name="autorun_deny_list_category_title">Odvolat oprávnění autorun</string>
+  <string name="wakelock_title">Wakelock</string>
+  <string name="wakelock_allow_list_category_title">Udělit oprávnění wakelock</string>
+  <string name="wakelock_deny_list_category_title">Odvolat oprávnění wakelock</string>
+  <string name="hibernate_title">Režim spánku</string>
+  <string name="hibernate_category_title">Upřesnění nastavení režimu spánku</string>
+  <string name="hibernate_wakeup_title">Probuzení</string>
+  <string name="warden_force_stop_title">Vynutit ukončení</string>
 </resources>

@@ -19,6 +19,12 @@
   <string name="loading">Cargando\u2026</string>
   <string name="no_apps">No hay aplicaciones</string>
   <string name="action_settings">Configuración</string>
+  <string name="autorun_allow_list_category_title">Conceder permisos de ejecución automática</string>
+  <string name="autorun_deny_list_category_title">Revocar los permisos de ejecución automática</string>
   <string name="hibernate_title">Hibernar</string>
+  <string name="hibernate_category_title">Configuración avanzada de hibernación</string>
   <string name="hibernate_wakeup_title">Despertar</string>
+  <string name="warden_category_title">Guarda configuración avanzada</string>
+  <string name="warden_force_stop_title">Parada forzosa</string>
+  <string name="warden_force_stop_summary">Forzar la detención de aplicación restringida al salir</string>
 </resources>
