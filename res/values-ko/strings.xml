@@ -15,5 +15,20 @@
      limitations under the License.
  -->
 <resources>
+  <string name="app_name">이지스</string>
   <string name="loading">로딩 중\u2026</string>
+  <string name="no_apps">앱 없음</string>
+  <string name="action_settings">설정</string>
+  <string name="autorun_title">자동 실행</string>
+  <string name="autorun_allow_list_category_title">자동 실행 권한 부여</string>
+  <string name="autorun_deny_list_category_title">자동 실행 권한 취소</string>
+  <string name="wakelock_title">Wakelock</string>
+  <string name="wakelock_allow_list_category_title">Wakelock 권한 부여</string>
+  <string name="wakelock_deny_list_category_title">Wakelock 사용 권한 취소</string>
+  <string name="pacifier_analyzing">앱 동작을 분석, 나중에 다시 확인하세요</string>
+  <string name="hibernate_title">절전 모드</string>
+  <string name="hibernate_allow_list_category_title">화면이 꺼졌을 때 절전모드 사용</string>
+  <string name="hibernate_deny_list_category_title">화면이 꺼졌을 때 절전모드 끄기</string>
+  <string name="hibernate_category_title">절전모드 고급 설정</string>
+  <string name="warden_force_stop_title">강제 중지</string>
 </resources>
