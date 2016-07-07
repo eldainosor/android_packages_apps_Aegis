@@ -25,7 +25,10 @@
   <string name="wakelock_title">켜짐 유지</string>
   <string name="wakelock_allow_list_category_title">켜짐 유지 허용</string>
   <string name="wakelock_deny_list_category_title">켜짐 유지 차단</string>
+  <string name="pacifier_title">젖꼭지</string>
   <string name="pacifier_analyzing">앱 동작을 분석, 나중에 다시 확인하세요</string>
+  <string name="pacifier_allow_list_category_title">응용 프로그램을 중지하고 연결된 앱에 브로드 캐스트를 보낼 수 있도록 허용</string>
+  <string name="pacifier_deny_list_category_title">중지와 연결된 앱에 방송을 보내는 응용 프로그램을 방지</string>
   <string name="hibernate_title">절전 모드</string>
   <string name="hibernate_allow_list_category_title">화면이 꺼지면 앱 절전 모드 사용</string>
   <string name="hibernate_deny_list_category_title">화면이 꺼지면 앱 절전 모드 사용 안함</string>
