@@ -15,12 +15,5 @@
      limitations under the License.
  -->
 <resources>
-  <string name="app_name">Aegis</string>
-  <string name="loading">Indlæser\u2026</string>
-  <string name="no_apps">Ingen apps</string>
-  <string name="action_settings">Indstillinger</string>
-  <string name="autorun_title">Autostart</string>
-  <string name="hibernate_title">Dvale</string>
-  <string name="hibernate_allow_list_category_title">Sæt app i dvale når skærmen slukker</string>
-  <string name="hibernate_deny_list_category_title">Apps der ikke går i dvale, når skærmen slukker</string>
+  <string name="loading">Laster\u2026</string>
 </resources>
