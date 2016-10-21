@@ -27,6 +27,8 @@
   <string name="wakelock_deny_list_category_title">Nie zezwalaj na wybudzanie ekranu</string>
   <string name="pacifier_title">Smoczek</string>
   <string name="pacifier_analyzing">Analizowanie działania aplikacji, proszę spróbować ponownie później</string>
+  <string name="pacifier_allow_list_category_title">Umożliwia aplikacji, aby wysłała polecenia do zatrzymanych i połączonych aplikacji</string>
+  <string name="pacifier_deny_list_category_title">Uniemożliwia wysyłanie poleceń do zatrzymanych i połączonych aplikacji</string>
   <string name="hibernate_title">Hibernacja</string>
   <string name="hibernate_allow_list_category_title">Hibernuj aplikację, gdy ekran jest wyłączony</string>
   <string name="hibernate_deny_list_category_title">Nie hibernuj aplikacji, gdy ekran jest wyłączony</string>
