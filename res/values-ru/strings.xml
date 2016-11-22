@@ -33,8 +33,8 @@
   <string name="hibernate_allow_list_category_title">Разрешить сон приложения при выключении экрана</string>
   <string name="hibernate_deny_list_category_title">Запретить сон приложения при выключении экрана</string>
   <string name="hibernate_category_title">Расширенные параметры спящего режима</string>
-  <string name="hibernate_wakeup_title">Выход из режима сна</string>
-  <string name="hibernate_wakeup_summary">Пробуждение приложений при включении экрана</string>
+  <string name="hibernate_wakeup_title">Пробуждение</string>
+  <string name="hibernate_wakeup_summary">Пробуждать приложение при включении экрана</string>
   <string name="warden_title">Инспектор</string>
   <string name="warden_allow_list_category_title">Разрешить приложению запуск фоновых служб, когда оно не запущено</string>
   <string name="warden_deny_list_category_title">Запретить приложению запуск фоновых служб, если оно не запущенно</string>
