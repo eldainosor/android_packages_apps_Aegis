@@ -27,18 +27,19 @@ LOCAL_RESOURCE_DIR := \
 LOCAL_AAPT_FLAGS := --auto-add-overlay \
     --extra-packages android.support.design:android.support.v7.preference:android.support.v14.preference:android.support.v17.preference:android.support.v7.appcompat:android.support.v7.recyclerview
 
-LOCAL_PROGUARD_FLAGS := -ignorewarnings -include build/core/proguard_basic_keeps.flags
-
-LOCAL_PROGUARD_ENABLED := nosystem
-
-LOCAL_PROGUARD_FLAG_FILES := proguard.flags
-
-LOCAL_JACK_ENABLED := disabled
-
 LOCAL_PACKAGE_NAME := Aegis
 
 LOCAL_CERTIFICATE := platform
 
 LOCAL_PRIVILEGED_MODULE := true
+
+LOCAL_PROGUARD_FLAG_FILES := proguard.flags
+
+ifneq ($(INCREMENTAL_BUILDS),)
+    LOCAL_PROGUARD_ENABLED := disabled
+    LOCAL_JACK_ENABLED := incremental
+    LOCAL_DX_FLAGS := --multi-dex
+    LOCAL_JACK_FLAGS := --multi-dex native
+endif
 
 include $(BUILD_PACKAGE)

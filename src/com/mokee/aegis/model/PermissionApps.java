@@ -81,7 +81,7 @@ public class PermissionApps {
         ArrayList<PermissionApp> permApps = new ArrayList<>();
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), PackageManager.GET_PERMISSIONS)
-                    : mPm.getInstalledPackages(PackageManager.GET_PERMISSIONS,
+                    : mPm.getInstalledPackagesAsUser(PackageManager.GET_PERMISSIONS,
                     user.getIdentifier());
             AppOpsManager mAppOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
             for (PackageInfo app : apps) {

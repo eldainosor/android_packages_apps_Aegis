@@ -40,7 +40,7 @@ public class PmCache {
     public synchronized List<PackageInfo> getPackages(int userId, int mode) {
         List<PackageInfo> ret = mPackageInfoCache.get(userId);
         if (ret == null) {
-            ret = mPm.getInstalledPackages(mode, userId);
+            ret = mPm.getInstalledPackagesAsUser(mode, userId);
             mPackageInfoCache.put(userId, ret);
         }
         return ret;

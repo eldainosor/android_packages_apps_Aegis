@@ -85,7 +85,7 @@ public class WardenApps {
 
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), 0)
-                    : mPm.getInstalledPackages(0, user.getIdentifier());
+                    : mPm.getInstalledPackagesAsUser(0, user.getIdentifier());
             for (PackageInfo app : apps) {
                 if (!PackageUtils.isSystem(app.applicationInfo)) {
                     String label = app.applicationInfo.loadLabel(mPm).toString();
