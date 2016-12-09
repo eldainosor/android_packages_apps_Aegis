@@ -59,7 +59,7 @@ public class ManagePermissionsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(1);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -97,14 +97,12 @@ public class ManagePermissionsActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             switch (position) {
                 case 0:
-                    return PermissionAppsFragment.newInstance(AppOpsManager.OP_BOOT_COMPLETED);
-                case 1:
                     return PermissionAppsFragment.newInstance(AppOpsManager.OP_WAKE_LOCK);
-                case 2:
+                case 1:
                     return WardenAppsFragment.newInstance();
-                case 3:
+                case 2:
                     return HibernateAppsFragment.newInstance();
-                case 4:
+                case 3:
                     return PacifierAppsFragment.newInstance();
             }
             return null;
@@ -112,21 +110,19 @@ public class ManagePermissionsActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 5;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.autorun_title);
-                case 1:
                     return getString(R.string.wakelock_title);
-                case 2:
+                case 1:
                     return getString(R.string.warden_title);
-                case 3:
+                case 2:
                     return getString(R.string.hibernate_title);
-                case 4:
+                case 3:
                     return getString(R.string.pacifier_title);
             }
             return null;

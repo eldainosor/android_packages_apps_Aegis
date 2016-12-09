@@ -75,11 +75,6 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
         mCurAppOpMode = getArguments().getInt(APP_OP_MODE);
         final SparseArray<String> groups = new SparseArray<String>();
         switch (mCurAppOpMode) {
-            case AppOpsManager.OP_BOOT_COMPLETED:
-                mCurCategoryAllowResId = R.string.autorun_allow_list_category_title;
-                mCurCategoryDenyResId = R.string.autorun_deny_list_category_title;
-                groups.put(AppOpsManager.OP_BOOT_COMPLETED, Manifest.permission.RECEIVE_BOOT_COMPLETED);
-                break;
             case AppOpsManager.OP_WAKE_LOCK:
                 mCurCategoryAllowResId = R.string.wakelock_allow_list_category_title;
                 mCurCategoryDenyResId = R.string.wakelock_deny_list_category_title;
