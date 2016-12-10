@@ -19,9 +19,6 @@
   <string name="loading">Chargement\u2026</string>
   <string name="no_apps">Aucune application</string>
   <string name="action_settings">Préférences</string>
-  <string name="autorun_title">Démarrage auto.</string>
-  <string name="autorun_allow_list_category_title">Autoriser démarrage auto.</string>
-  <string name="autorun_deny_list_category_title">Annuler autorisations de démarrage auto.</string>
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">Accorder les autorisations de wakelock</string>
   <string name="wakelock_deny_list_category_title">Annuler les autorisations de wakelock</string>

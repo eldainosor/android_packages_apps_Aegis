@@ -19,9 +19,6 @@
   <string name="loading">正在加载…</string>
   <string name="no_apps">没有应用</string>
   <string name="action_settings">设置</string>
-  <string name="autorun_title">自动施放</string>
-  <string name="autorun_allow_list_category_title">允许收到开机广播后自启动</string>
-  <string name="autorun_deny_list_category_title">不允许收到开机广播后自启动</string>
   <string name="wakelock_title">唤醒驱散</string>
   <string name="wakelock_allow_list_category_title">允许应用阻止系统进入睡眠模式</string>
   <string name="wakelock_deny_list_category_title">不允许应用阻止系统进入睡眠模式</string>

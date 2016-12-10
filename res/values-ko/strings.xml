@@ -19,9 +19,6 @@
   <string name="loading">로딩 중\u2026</string>
   <string name="no_apps">앱 없음</string>
   <string name="action_settings">설정</string>
-  <string name="autorun_title">부팅시 시작</string>
-  <string name="autorun_allow_list_category_title">부팅시 시작 허용</string>
-  <string name="autorun_deny_list_category_title">부팅시 시작 차단</string>
   <string name="wakelock_title">켜짐 유지</string>
   <string name="wakelock_allow_list_category_title">켜짐 유지 허용</string>
   <string name="wakelock_deny_list_category_title">켜짐 유지 차단</string>

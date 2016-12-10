@@ -19,9 +19,6 @@
   <string name="loading">載入中\u2026</string>
   <string name="no_apps">沒有應用程式</string>
   <string name="action_settings">設定</string>
-  <string name="autorun_title">自動運行</string>
-  <string name="autorun_allow_list_category_title">自動運行許可權授予</string>
-  <string name="autorun_deny_list_category_title">撤銷自動運行的許可權</string>
   <string name="wakelock_title">激活鎖定</string>
   <string name="wakelock_allow_list_category_title">授予權限激活鎖定</string>
   <string name="wakelock_deny_list_category_title">撤銷 wakelock 許可權</string>

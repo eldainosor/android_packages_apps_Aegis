@@ -16,9 +16,6 @@
  -->
 <resources>
   <string name="app_name">Agida</string>
-  <string name="autorun_title">Automatiškas paleidimas</string>
-  <string name="autorun_allow_list_category_title">Suteikti automatiško paleidimo teises</string>
-  <string name="autorun_deny_list_category_title">Atšaukti automatiško paleidimo teises</string>
   <string name="wakelock_title">PažadinimoUžraktas</string>
   <string name="wakelock_allow_list_category_title">Suteikti pažadinimo užrakto teises</string>
   <string name="hibernate_title">Miegoti</string>

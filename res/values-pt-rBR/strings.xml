@@ -19,9 +19,6 @@
   <string name="loading">Carregando\u2026</string>
   <string name="no_apps">Nenhum app</string>
   <string name="action_settings">Configurações</string>
-  <string name="autorun_title">Execução automática</string>
-  <string name="autorun_allow_list_category_title">Conceder permissões de execução automática</string>
-  <string name="autorun_deny_list_category_title">Revogar permissões de execução automática</string>
   <string name="wakelock_title">Acordar do bloqueio</string>
   <string name="wakelock_allow_list_category_title">Conceder permissões de acordar do bloqueio</string>
   <string name="wakelock_deny_list_category_title">Revogar as permissões de acordar do bloqueio</string>

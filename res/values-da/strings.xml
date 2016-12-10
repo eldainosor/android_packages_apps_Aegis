@@ -19,9 +19,6 @@
   <string name="loading">Indlæser\u2026</string>
   <string name="no_apps">Ingen apps</string>
   <string name="action_settings">Indstillinger</string>
-  <string name="autorun_title">Autostart</string>
-  <string name="autorun_allow_list_category_title">Tildel autoeksekveringsrettighed (autorun)</string>
-  <string name="autorun_deny_list_category_title">Annullér autoeksekveringsrettighed (autorun)</string>
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">Tildel wakelock-rettighed</string>
   <string name="wakelock_deny_list_category_title">Annullér wakelock-rettighed</string>

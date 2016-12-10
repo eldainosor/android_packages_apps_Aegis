@@ -19,9 +19,6 @@
   <string name="loading">Nahrávám\u2026</string>
   <string name="no_apps">Žádné aplikace</string>
   <string name="action_settings">Nastavení</string>
-  <string name="autorun_title">Automatické spuštění</string>
-  <string name="autorun_allow_list_category_title">Udělit oprávnění autorun</string>
-  <string name="autorun_deny_list_category_title">Odvolat oprávnění autorun</string>
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">Udělit oprávnění wakelock</string>
   <string name="wakelock_deny_list_category_title">Odvolat oprávnění wakelock</string>

@@ -19,9 +19,6 @@
   <string name="loading">Загрузка\u2026</string>
   <string name="no_apps">Нет приложений</string>
   <string name="action_settings">Настройки</string>
-  <string name="autorun_title">Автозапуск</string>
-  <string name="autorun_allow_list_category_title">Разрешить автозапуск</string>
-  <string name="autorun_deny_list_category_title">Запретить автозапуск</string>
   <string name="wakelock_title">Пробуждение</string>
   <string name="wakelock_allow_list_category_title">Разрешить пробуждение</string>
   <string name="wakelock_deny_list_category_title">Запретить пробуждение</string>

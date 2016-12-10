@@ -19,9 +19,6 @@
   <string name="loading">Завантаження\u2026</string>
   <string name="no_apps">Немає додатків</string>
   <string name="action_settings">Налаштування</string>
-  <string name="autorun_title">Автозапуск</string>
-  <string name="autorun_allow_list_category_title">Надайти дозвіл автозапуску</string>
-  <string name="autorun_deny_list_category_title">Скасувати дозвіл автозапуску</string>
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">Надати дозвіл wakelock </string>
   <string name="wakelock_deny_list_category_title">Скасувати дозвіл wakelock</string>

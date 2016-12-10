@@ -19,9 +19,6 @@
   <string name="loading">Loading</string>
   <string name="no_apps">No apps</string>
   <string name="action_settings">Settings</string>
-  <string name="autorun_title">Autorun</string>
-  <string name="autorun_allow_list_category_title">Grant autorun permissions</string>
-  <string name="autorun_deny_list_category_title">Revoke autorun permissions</string>
   <string name="wakelock_title">Wake lock</string>
   <string name="wakelock_allow_list_category_title">Grant wakelock permissions</string>
   <string name="wakelock_deny_list_category_title">Revoke wakelock permissions</string>

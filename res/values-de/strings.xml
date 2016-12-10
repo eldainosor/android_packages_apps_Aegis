@@ -19,9 +19,6 @@
   <string name="loading">Lädt\u2026</string>
   <string name="no_apps">Keine Apps</string>
   <string name="action_settings">Einstellungen</string>
-  <string name="autorun_title">Autorun</string>
-  <string name="autorun_allow_list_category_title">Gewähren Sie Autorun-Berechtigungen</string>
-  <string name="autorun_deny_list_category_title">Widerrufen Sie Autorun-Berechtigungen</string>
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">Gewähren Sie WakeLock Berechtigungen</string>
   <string name="wakelock_deny_list_category_title">Widerrufen Sie Wakelock-Berechtigungen</string>

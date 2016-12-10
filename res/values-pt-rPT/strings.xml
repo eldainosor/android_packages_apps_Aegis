@@ -16,6 +16,5 @@
  -->
 <resources>
   <string name="action_settings">Definições</string>
-  <string name="autorun_title">Executar Automático</string>
   <string name="hibernate_title">Hibernar</string>
 </resources>

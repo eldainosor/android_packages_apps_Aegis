@@ -19,9 +19,6 @@
   <string name="loading">טוען\u2026</string>
   <string name="no_apps">אין יישומים</string>
   <string name="action_settings">הגדרות</string>
-  <string name="autorun_title">הפעלה אוטומטית</string>
-  <string name="autorun_allow_list_category_title">הפעלה באופן אוטומטי מאופשרת</string>
-  <string name="autorun_deny_list_category_title">הפעלה באופן אוטומטי מבוטלת</string>
   <string name="wakelock_title">מניעת שינה</string>
   <string name="wakelock_allow_list_category_title">מניעת מעבר למצב שינה (wakelock) מופעלת</string>
   <string name="wakelock_deny_list_category_title">מניעת מעבר למצב שינה (wakelock) מבוטלת</string>

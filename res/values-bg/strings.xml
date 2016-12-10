@@ -19,9 +19,6 @@
   <string name="loading">Зарежда\u2026</string>
   <string name="no_apps">Няма прилож</string>
   <string name="action_settings">Настройки</string>
-  <string name="autorun_title">Автостарт</string>
-  <string name="autorun_allow_list_category_title">Предоставяне права на супер потребител</string>
-  <string name="autorun_deny_list_category_title">Отмени права на супер потребител</string>
   <string name="wakelock_title">Събуждане</string>
   <string name="wakelock_allow_list_category_title">Права на руут достъп на Събуждане</string>
   <string name="wakelock_deny_list_category_title">Отмени руут достъп на Събуждане</string>
