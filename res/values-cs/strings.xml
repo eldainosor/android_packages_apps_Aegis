@@ -26,8 +26,8 @@
   <string name="wakelock_allow_list_category_title">Udělit oprávnění wakelock</string>
   <string name="wakelock_deny_list_category_title">Odvolat oprávnění wakelock</string>
   <string name="pacifier_title">Oznámení</string>
-  <string name="pacifier_analyzing">Analýza chování aplikace, znovu zkontrolujte laster</string>
-  <string name="pacifier_allow_list_category_title">Povolit zasílání upozornění zadržených a souvisejících aplikací</string>
+  <string name="pacifier_analyzing">Analýza chování aplikace, zkuste to prosím později</string>
+  <string name="pacifier_allow_list_category_title">Povolit zasílání upozornění zastavených a propojených aplikací</string>
   <string name="pacifier_deny_list_category_title">Zakázat odesílání upozornění týkající se zastavení a aplikací</string>
   <string name="hibernate_title">Režim spánku</string>
   <string name="hibernate_allow_list_category_title">Hibernovat aplikace při vypnuté obrazovce</string>
