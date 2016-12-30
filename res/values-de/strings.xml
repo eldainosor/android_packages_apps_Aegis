@@ -24,8 +24,8 @@
   <string name="wakelock_deny_list_category_title">Widerrufen Sie Wakelock-Berechtigungen</string>
   <string name="pacifier_title">Schnuller</string>
   <string name="pacifier_analyzing">App Verhaltensweisen analysieren, überprüfen Sie es später erneut</string>
-  <string name="pacifier_allow_list_category_title">Erlaube broadcast an gestoppte und verknüpfte Apps</string>
-  <string name="pacifier_deny_list_category_title">Verhindere broadcast an gestoppte und verknüpfte Apps</string>
+  <string name="pacifier_allow_list_category_title">Erlaube Übertragung an gestoppte und verknüpfte Apps</string>
+  <string name="pacifier_deny_list_category_title">Verhindere Übertragung an gestoppte und verknüpfte Apps</string>
   <string name="hibernate_title">Ruhezustand</string>
   <string name="hibernate_allow_list_category_title">Erlaube Ruhezustand im Stand-By</string>
   <string name="hibernate_deny_list_category_title">Verhindere Ruhezustand im Stand-By</string>
@@ -37,5 +37,5 @@
   <string name="warden_deny_list_category_title">Beschränke Hintergrundprozesse bei nicht ausgeführten Apps</string>
   <string name="warden_category_title">Erweiterte Aufseher Einstellungen</string>
   <string name="warden_force_stop_title">Beenden erzwingen</string>
-  <string name="warden_force_stop_summary">Beenden erzwingen eingeschränkter App beim verlassen</string>
+  <string name="warden_force_stop_summary">Beenden der eingeschränkter App beim verlassen erzwingen</string>
 </resources>
