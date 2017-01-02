@@ -15,7 +15,7 @@
      limitations under the License.
  -->
 <resources>
-  <string name="app_name">Perlindungan</string>
+  <string name="app_name">Pengawasan</string>
   <string name="loading">Memuat\u2026</string>
   <string name="no_apps">Tidak ada aplikasi</string>
   <string name="action_settings">Setelan</string>
@@ -36,7 +36,7 @@
   <string name="hibernate_wakeup_title">Bangun</string>
   <string name="hibernate_wakeup_summary">Bangunkan aplikasi yang dihibernasikan ketika layar hidup</string>
   <string name="warden_title">Pengawas</string>
-  <string name="warden_allow_list_category_title">Izinkan aplikasi untuk memulai layanan latar belakang ketika tidak berjalankan</string>
+  <string name="warden_allow_list_category_title">Izinkan memulai layanan latar belakang ketika tidak menjalankan app</string>
   <string name="warden_deny_list_category_title">Cegah aplikasi memulai Layanan latar belakang ketika tidak berjalan</string>
   <string name="warden_category_title">Setelan lanjutan pengawas</string>
   <string name="warden_force_stop_title">Paksa berhenti</string>
