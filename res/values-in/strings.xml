@@ -20,8 +20,8 @@
   <string name="no_apps">Tidak ada aplikasi</string>
   <string name="action_settings">Setelan</string>
   <string name="autorun_title">Jalankan otomatis</string>
-  <string name="autorun_allow_list_category_title">Izinkan berjalan otomatis</string>
-  <string name="autorun_deny_list_category_title">Cabut izin jalan otomatis</string>
+  <string name="autorun_allow_list_category_title">Izinkan mulai otomatis</string>
+  <string name="autorun_deny_list_category_title">Cabut izin mulai otomatis</string>
   <string name="wakelock_title">Terjaga</string>
   <string name="wakelock_allow_list_category_title">Berikan izin terjaga</string>
   <string name="wakelock_deny_list_category_title">Cabut izin terjaga</string>
@@ -32,7 +32,7 @@
   <string name="hibernate_title">Hibernarsi</string>
   <string name="hibernate_allow_list_category_title">Hibernasikan aplikasi saat layar mati</string>
   <string name="hibernate_deny_list_category_title">Bukan aplikasi yang berhibernasi saat layar mati</string>
-  <string name="hibernate_category_title">Setelan hibernasi lanjutan</string>
+  <string name="hibernate_category_title">Setelan lanjutan hibernasi</string>
   <string name="hibernate_wakeup_title">Bangun</string>
   <string name="hibernate_wakeup_summary">Bangunkan aplikasi yang dihibernasikan ketika layar hidup</string>
   <string name="warden_title">Pengawas</string>
