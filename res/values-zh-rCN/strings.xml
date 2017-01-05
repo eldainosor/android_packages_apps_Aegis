@@ -20,8 +20,8 @@
   <string name="no_apps">没有应用</string>
   <string name="action_settings">设置</string>
   <string name="wakelock_title">唤醒驱散</string>
-  <string name="wakelock_allow_list_category_title">允许应用中断系统睡眠</string>
-  <string name="wakelock_deny_list_category_title">禁止应用中断系统睡眠</string>
+  <string name="wakelock_allow_list_category_title">允许应用中断系统入睡</string>
+  <string name="wakelock_deny_list_category_title">禁止应用中断系统入睡</string>
   <string name="pacifier_title">沉默权杖</string>
   <string name="pacifier_analyzing">分析程序行为中，请稍后回来看看</string>
   <string name="pacifier_allow_list_category_title">允许应用唤醒未运行的关联应用</string>

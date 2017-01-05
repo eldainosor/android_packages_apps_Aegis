@@ -36,6 +36,6 @@
   <string name="warden_allow_list_category_title">Permitir que la aplicación inicie servicios en segundo plano cuando no se esté ejecutando</string>
   <string name="warden_deny_list_category_title">Evitar que la aplicación inicie servicios en segundo plano cuando no se esté ejecutando</string>
   <string name="warden_category_title">Guarda configuración avanzada</string>
-  <string name="warden_force_stop_title">Parada forzosa</string>
+  <string name="warden_force_stop_title">Forzar detención</string>
   <string name="warden_force_stop_summary">Forzar la detención de aplicación restringida al salir</string>
 </resources>
