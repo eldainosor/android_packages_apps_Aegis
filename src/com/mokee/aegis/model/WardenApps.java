@@ -27,6 +27,7 @@ import android.os.AsyncTask;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 
 import com.android.internal.app.IAppOpsService;
@@ -89,6 +90,7 @@ public class WardenApps {
             for (PackageInfo app : apps) {
                 if (!PackageUtils.isSystem(app.applicationInfo)) {
                     String label = app.applicationInfo.loadLabel(mPm).toString();
+                    if (TextUtils.equals(label, app.packageName)) continue;
                     boolean isAllowed;
                     try {
                         isAllowed = ((WardenInfo.PackageInfo) mAppOps.getWardenInfo(UserHandle.myUserId()).get(app.packageName)).getUidsInfo().get(UserHandle.myUserId()).getMode() == WardenUtils.MODE_ALLOWED;

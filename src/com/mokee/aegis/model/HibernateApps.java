@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 
 import com.mokee.aegis.receiver.PackagesMonitor;
@@ -83,6 +84,7 @@ public class HibernateApps {
             for (PackageInfo app : apps) {
                 if (!PackageUtils.isSystem(app.applicationInfo)) {
                     String label = app.applicationInfo.loadLabel(mPm).toString();
+                    if (TextUtils.equals(label, app.packageName)) continue;
                     HibernateApp hibernateApp = new HibernateApp(app.packageName, label,
                             app.applicationInfo.loadIcon(mPm), mPrefs.getBoolean(app.packageName, false), app.applicationInfo);
                     hibernateApps.add(hibernateApp);
