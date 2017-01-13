@@ -21,7 +21,7 @@
   <string name="action_settings">設定</string>
   <string name="wakelock_title">Wakelock</string>
   <string name="wakelock_allow_list_category_title">將權限授予 wakelock</string>
-  <string name="wakelock_deny_list_category_title">撤銷 wakelock 許可權</string>
+  <string name="wakelock_deny_list_category_title">撤銷 wakelock 權限</string>
   <string name="pacifier_title">沉默權杖</string>
   <string name="pacifier_analyzing">分析應用程式的行為，請再次檢查一次</string>
   <string name="pacifier_allow_list_category_title">允許發送廣播停止，且已連結到應用程式</string>
