@@ -27,9 +27,9 @@
   <string name="pacifier_allow_list_category_title">允許發送廣播停止，且已連結到應用程式</string>
   <string name="pacifier_deny_list_category_title">防止應用程式發送廣播到停止和連結的應用程式</string>
   <string name="hibernate_title">休眠狀態</string>
-  <string name="hibernate_allow_list_category_title">當螢幕關閉則准許應用程序休眠</string>
+  <string name="hibernate_allow_list_category_title">當螢幕關閉則准許應用程式休眠</string>
   <string name="hibernate_deny_list_category_title">當螢幕關閉撤銷休眠的應用程式</string>
-  <string name="hibernate_category_title">高級睡眠設定</string>
+  <string name="hibernate_category_title">進階睡眠設定</string>
   <string name="hibernate_wakeup_title">喚醒</string>
   <string name="hibernate_wakeup_summary">當螢幕開啟喚醒休眠應用程式</string>
   <string name="warden_title">監督</string>
