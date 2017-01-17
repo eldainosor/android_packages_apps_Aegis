@@ -27,8 +27,8 @@
   <string name="pacifier_allow_list_category_title">允许应用唤醒未运行的关联应用</string>
   <string name="pacifier_deny_list_category_title">禁止应用唤醒未运行的关联应用</string>
   <string name="hibernate_title">静谧之笛</string>
-  <string name="hibernate_allow_list_category_title">允许应用在熄屏后被强制休眠</string>
-  <string name="hibernate_deny_list_category_title">禁止应用在熄屏后被强制休眠</string>
+  <string name="hibernate_allow_list_category_title">允许应用在息屏后被强制休眠</string>
+  <string name="hibernate_deny_list_category_title">禁止应用在息屏后被强制休眠</string>
   <string name="hibernate_category_title">静谧之笛扩展选项</string>
   <string name="hibernate_wakeup_title">亮屏唤醒</string>
   <string name="hibernate_wakeup_summary">屏幕点亮后自动唤醒被休眠的应用</string>
