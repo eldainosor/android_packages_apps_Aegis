@@ -18,7 +18,7 @@
   <string name="app_name">Абаронца</string>
   <string name="loading">Загрузка\u2026</string>
   <string name="no_apps">Няма прыкладанняў</string>
-  <string name="action_settings">Настройкі</string>
+  <string name="action_settings">Налады</string>
   <string name="wakelock_title">Абуджэнне прылады</string>
   <string name="wakelock_allow_list_category_title">Дазволіць будзіць прыладу</string>
   <string name="wakelock_deny_list_category_title">Забараніць будзіць прыладу</string>
