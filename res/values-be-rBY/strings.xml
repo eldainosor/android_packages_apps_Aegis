@@ -37,5 +37,5 @@
   <string name="warden_deny_list_category_title">Не дазваляць праграме запускаць фонавыя працэссы, калі яно не запушчана</string>
   <string name="warden_category_title">Дадатковыя параметры наглядчыка</string>
   <string name="warden_force_stop_title">Прымусовае спыненне</string>
-  <string name="warden_force_stop_summary">Прымусова спыніць заблякаваныя праграмы пасля выхаду</string>
+  <string name="warden_force_stop_summary">Прымусова спыніць заблакаваныя праграмы пасля выхаду</string>
 </resources>
