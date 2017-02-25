@@ -16,7 +16,7 @@
  -->
 <resources>
   <string name="app_name">宙斯盾</string>
-  <string name="loading">正在加载…</string>
+  <string name="loading">正在加载\u2026</string>
   <string name="no_apps">没有应用</string>
   <string name="action_settings">设置</string>
   <string name="wakelock_title">唤醒驱散</string>
