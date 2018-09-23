@@ -31,7 +31,6 @@ import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
 
 import java.util.ArrayList;
@@ -77,7 +76,6 @@ public class PermissionApps {
     }
 
     private List<PermissionApp> loadPermissionApps() {
-        if (!CloudUtils.Verified) return null;
         ArrayList<PermissionApp> permApps = new ArrayList<>();
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), PackageManager.GET_PERMISSIONS)

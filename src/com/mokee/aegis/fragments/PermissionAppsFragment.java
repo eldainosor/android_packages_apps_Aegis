@@ -35,7 +35,6 @@ import com.mokee.aegis.model.PermissionApps;
 import com.mokee.aegis.model.PermissionApps.Callback;
 import com.mokee.aegis.model.PermissionApps.PermissionApp;
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 
 public final class PermissionAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
@@ -133,8 +132,6 @@ public final class PermissionAppsFragment extends PermissionsFrameFragment imple
             categoryDeny.setTitle(mCurCategoryDenyResId);
             screenRoot.addPreference(categoryDeny);
         }
-
-        if (!CloudUtils.Verified) return;
 
         if (permissionApps.getApps().size() != 0) {
             for (final PermissionApp app : permissionApps.getApps()) {

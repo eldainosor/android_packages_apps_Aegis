@@ -13,8 +13,7 @@ LOCAL_STATIC_JAVA_LIBRARIES += \
     android-support-v7-preference \
     android-support-v7-appcompat \
     android-support-v13 \
-    android-support-v14-preference \
-    org.mokee.platform.sdk
+    android-support-v14-preference
 
 LOCAL_RESOURCE_DIR := \
     frameworks/support/design/res \

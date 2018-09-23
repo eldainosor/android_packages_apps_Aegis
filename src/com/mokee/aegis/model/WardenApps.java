@@ -34,7 +34,6 @@ import com.mokee.aegis.WardenInfo;
 import com.mokee.aegis.WardenUtils;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
 
 import java.util.ArrayList;
@@ -80,7 +79,6 @@ public class WardenApps {
     }
 
     private List<WardenApp> loadWardenApps() {
-        if (!CloudUtils.Verified) return null;
         ArrayList<WardenApp> wardenApps = new ArrayList<>();
 
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {

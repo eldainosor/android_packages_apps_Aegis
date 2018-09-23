@@ -39,7 +39,6 @@ import com.mokee.aegis.model.PacifierApps.Callback;
 import com.mokee.aegis.model.PacifierApps.PacifierApp;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 
 public final class PacifierAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
@@ -121,8 +120,6 @@ public final class PacifierAppsFragment extends PermissionsFrameFragment impleme
             categoryDeny.setTitle(mCurCategoryDenyResId);
             screenRoot.addPreference(categoryDeny);
         }
-
-        if (!CloudUtils.Verified) return;
 
         if (pacifierApps.getApps().size() != 0) {
             for (final PacifierApp app : pacifierApps.getApps()) {

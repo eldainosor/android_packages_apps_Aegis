@@ -40,7 +40,6 @@ import com.mokee.aegis.model.WardenApps.Callback;
 import com.mokee.aegis.model.WardenApps.WardenApp;
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 
 public final class WardenAppsFragment extends PermissionsFrameFragment implements Callback, Preference.OnPreferenceChangeListener {
 
@@ -122,8 +121,6 @@ public final class WardenAppsFragment extends PermissionsFrameFragment implement
             categoryDeny.setTitle(mCurCategoryDenyResId);
             screenRoot.addPreference(categoryDeny);
         }
-
-        if (!CloudUtils.Verified) return;
 
         if (wardenApps.getApps().size() != 0) {
             for (final WardenApp app : wardenApps.getApps()) {

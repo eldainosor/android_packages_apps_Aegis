@@ -32,7 +32,6 @@ import com.android.internal.app.IAppOpsService;
 import com.mokee.aegis.PacifierInfo;
 import com.mokee.aegis.PacifierUtils;
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
 
 import java.util.ArrayList;
@@ -77,7 +76,6 @@ public class PacifierApps {
     }
 
     private List<PacifierApp> loadPacifierApps() {
-        if (!CloudUtils.Verified) return null;
         ArrayList<PacifierApp> pacifierApps = new ArrayList<>();
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
             List<PackageInfo> apps = mCache != null ? mCache.getPackages(user.getIdentifier(), 0)

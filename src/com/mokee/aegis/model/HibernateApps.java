@@ -30,7 +30,6 @@ import android.util.ArrayMap;
 
 import com.mokee.aegis.receiver.PackagesMonitor;
 import com.mokee.aegis.utils.PmCache;
-import com.mokee.cloud.misc.CloudUtils;
 import com.mokee.utils.PackageUtils;
 
 import java.util.ArrayList;
@@ -74,7 +73,6 @@ public class HibernateApps {
     }
 
     private List<HibernateApp> loadHibernateApps() {
-        if (!CloudUtils.Verified) return null;
         ArrayList<HibernateApp> hibernateApps = new ArrayList<>();
 
         for (UserHandle user : UserManager.get(mContext).getUserProfiles()) {
